@@ -134,6 +134,11 @@ export const en = {
     androidQuickStart: "Android quick start →",
   },
 
+  /** Platform names on buttons, card titles and badges. */
+  platforms: {
+    android: "Android",
+  },
+
   recipesPage: {
     eyebrow: "The recipes",
     title: "Every suggestion comes from one of these.",

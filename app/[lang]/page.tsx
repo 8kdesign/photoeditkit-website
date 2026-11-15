@@ -36,7 +36,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
             </ButtonLink>
             <ButtonLink href={links.androidRepo} size="lg" variant="secondary" external>
               <GitHubIcon />
-              Android
+              {t.platforms.android}
             </ButtonLink>
           </div>
         </div>
@@ -152,10 +152,10 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
           </div>
           <div className={`${cardClass} ${styles.installCard}`}>
             <div className={styles.installHead}>
-              <h3 className={styles.cardTitle}>Android</h3>
+              <h3 className={styles.cardTitle}>{t.platforms.android}</h3>
               <div className={styles.badges}>
                 <Badge>Maven</Badge>
-                <Badge>Android 10+</Badge>
+                <Badge>{`${t.platforms.android} 10+`}</Badge>
                 <Badge>arm64</Badge>
               </div>
             </div>

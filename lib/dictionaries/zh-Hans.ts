@@ -148,6 +148,10 @@ export const zhHans: Dictionary = {
     androidQuickStart: '安卓快速上手 →',
   },
 
+  platforms: {
+    android: '安卓',
+  },
+
   recipesPage: {
     eyebrow: '配方',
     title: '每条建议都来自以下配方',
