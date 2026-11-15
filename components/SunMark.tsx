@@ -3,13 +3,13 @@
  * the last quarter is short and grey. Gold = --warm, grey = --line-strong,
  * so it follows the theme.
  */
-const CX = 12;
-const CY = 12;
+export const CX = 12;
+export const CY = 12;
 const K = 1.15;
-const CORE = 3.6 * K;
+export const CORE = 3.6 * K;
 const INNER = 5.6 * K;
 
-const rays = Array.from({ length: 12 }, (_, i) => {
+export const rays = Array.from({ length: 12 }, (_, i) => {
   const a = ((195 + 30 * i) * Math.PI) / 180;
   const lit = i < 9;
   const len = (lit ? 0.9 + (2.7 * i) / 8 : 1.0) * K;

@@ -1,23 +1,56 @@
 "use client";
 
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import Image, { getImageProps } from "next/image";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { examples } from "@/lib/content";
-import { CompareSlider } from "./CompareSlider";
+import { CompareSlider, HERO_SIZES } from "./CompareSlider";
+
+const pair = (slug: string) => [`/examples/${slug}-original.jpg`, `/examples/${slug}-edited.jpg`];
+
+/** Whether the visitor asked to save data or is on a slow connection. */
+function constrainedNetwork() {
+  const c = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+  return !!c && (c.saveData === true || /(^|-)2g$|^3g$/.test(c.effectiveType ?? ""));
+}
 
 export function HeroShowcase() {
   const [selected, setSelected] = useState(0);
   const photo = examples[selected];
+  const warmed = useRef(new Set<string>());
 
-  // Warm the browser cache with every example so switching is instant.
-  useEffect(() => {
-    for (const p of examples) {
-      for (const kind of ["original", "edited"]) {
-        const img = new window.Image();
-        img.src = `/examples/${p.slug}-${kind}.jpg`;
-      }
+  // Fetch the same resized AVIF/WebP the slider will ask for (same srcset and sizes), not the
+  // 1600px originals, so a switch is instant without downloading megabytes up front.
+  const warm = useCallback((slug: string) => {
+    if (warmed.current.has(slug)) return;
+    warmed.current.add(slug);
+    for (const src of pair(slug)) {
+      const { props } = getImageProps({ src, alt: "", fill: true, sizes: HERO_SIZES });
+      const img = new window.Image();
+      img.decoding = "async";
+      if (props.sizes) img.sizes = props.sizes;
+      if (props.srcSet) img.srcset = props.srcSet;
+      img.src = props.src;
     }
   }, []);
+
+  // Once the page has loaded and the browser is idle, warm the remaining examples,
+  // unless the visitor is saving data. Otherwise they load on hover, focus or touch.
+  useEffect(() => {
+    warmed.current.add(examples[0].slug);
+    if (constrainedNetwork()) return;
+    const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 1500));
+    const cancelIdle = window.cancelIdleCallback ?? window.clearTimeout;
+    let handle: number | undefined;
+    const start = () => {
+      handle = idle(() => examples.slice(1).forEach((p) => warm(p.slug))) as number;
+    };
+    if (document.readyState === "complete") start();
+    else window.addEventListener("load", start, { once: true });
+    return () => {
+      window.removeEventListener("load", start);
+      if (handle !== undefined) cancelIdle(handle);
+    };
+  }, [warm]);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 16, minWidth: 0 }}>
@@ -29,7 +62,6 @@ export function HeroShowcase() {
         elevated
         introGlide={selected === 0}
         priority={selected === 0}
-        unoptimized
       />
       <div role="group" aria-label="Example photos" style={{ display: "flex", gap: 8, overflowX: "auto", padding: 4 }}>
         {examples.map((p, i) => {
@@ -41,6 +73,9 @@ export function HeroShowcase() {
               aria-pressed={active}
               aria-label={p.name}
               onClick={() => setSelected(i)}
+              onPointerEnter={() => warm(p.slug)}
+              onPointerDown={() => warm(p.slug)}
+              onFocus={() => warm(p.slug)}
               style={{
                 flex: "0 0 auto",
                 width: 80,

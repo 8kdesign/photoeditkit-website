@@ -5,7 +5,49 @@ import { HeroShowcase } from "@/components/HeroShowcase";
 import { HomeCode, InstallSnippet } from "@/components/HomeCode";
 import { ArrowRight, Badge, ButtonLink, Eyebrow, GitHubIcon, SectionTitle, cardClass } from "@/components/ui";
 import { homeRecipeGroups, links, recipeKinds, type RecipeKind } from "@/lib/content";
+import { site, siteUrl } from "@/lib/site";
 import styles from "./page.module.css";
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      url: `${siteUrl}/`,
+      name: site.name,
+      description: site.description,
+      publisher: { "@id": `${siteUrl}/#org` },
+      inLanguage: "en",
+    },
+    {
+      "@type": "Organization",
+      "@id": `${siteUrl}/#org`,
+      name: site.author,
+      logo: `${siteUrl}/icon-512.png`,
+    },
+    {
+      "@type": "SoftwareSourceCode",
+      name: "PhotoEditKit for iOS & macOS",
+      description: site.description,
+      codeRepository: links.iosRepo,
+      programmingLanguage: "Swift",
+      runtimePlatform: ["iOS 17.6+", "macOS 15+"],
+      author: { "@id": `${siteUrl}/#org` },
+      isAccessibleForFree: true,
+    },
+    {
+      "@type": "SoftwareSourceCode",
+      name: "PhotoEditKit for Android",
+      description: site.description,
+      codeRepository: links.androidRepo,
+      programmingLanguage: "Kotlin",
+      runtimePlatform: "Android 10+",
+      author: { "@id": `${siteUrl}/#org` },
+      isAccessibleForFree: true,
+    },
+  ],
+};
 
 const icon = (paths: ReactNode) => (
   <span className={styles.icon}>
@@ -57,6 +99,10 @@ const kindDot: Record<RecipeKind, string> = {
 export default function HomePage() {
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
+      />
       <section className={`container ${styles.hero}`}>
         <div className={styles.heroCopy}>
           <Eyebrow>On-device photo editing · iOS · macOS · Android</Eyebrow>

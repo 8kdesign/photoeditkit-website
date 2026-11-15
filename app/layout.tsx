@@ -3,20 +3,41 @@ import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { site, siteUrl } from "@/lib/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
-    default: "PhotoEditKit — one call gives a photo the edit it needs",
+    default: site.title,
     template: "%s · PhotoEditKit",
   },
-  description:
-    "On-device photo editing for iOS, macOS and Android. PhotoEditKit analyzes each photo and suggests ranked edits you can show in a picker or apply instantly. Zero network requests.",
+  description: site.description,
+  applicationName: site.name,
+  keywords: site.keywords,
+  authors: [{ name: site.author }],
+  creator: site.author,
+  publisher: site.author,
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "PhotoEditKit",
-    description: "One call gives a photo the edit it needs, entirely on the device.",
     type: "website",
+    siteName: site.name,
+    url: "/",
+    title: site.title,
+    description: site.tagline,
+    locale: "en_US",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: site.title,
+    description: site.tagline,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
+  formatDetection: { telephone: false, email: false, address: false },
 };
 
 export const viewport: Viewport = {

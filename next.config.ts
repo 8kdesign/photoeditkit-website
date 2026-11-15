@@ -11,8 +11,21 @@ const localAddresses = Object.values(networkInterfaces())
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1", "*.local", ...localAddresses],
+  poweredByHeader: false,
   images: {
     formats: ["image/avif", "image/webp"],
+    // Resized images are cached for 30 days instead of the default 4 hours.
+    minimumCacheTTL: 60 * 60 * 24 * 30,
+  },
+  async headers() {
+    // Static assets in public/ are not content-hashed, so cache them for a day and revalidate
+    // in the background rather than forever.
+    const cache = "public, max-age=86400, stale-while-revalidate=604800";
+    return [
+      { source: "/examples/:path*", headers: [{ key: "Cache-Control", value: cache }] },
+      { source: "/logo/:path*", headers: [{ key: "Cache-Control", value: cache }] },
+      { source: "/:file(icon-192.png|icon-512.png|autoedit-suggestions.webp)", headers: [{ key: "Cache-Control", value: cache }] },
+    ];
   },
 };
 

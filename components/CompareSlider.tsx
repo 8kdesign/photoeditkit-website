@@ -23,6 +23,9 @@ type Props = {
   flush?: boolean;
 };
 
+/** Rendered width of the large slider; shared with HeroShowcase so its prefetches match what the slider requests. */
+export const HERO_SIZES = "(max-width: 768px) 100vw, 600px";
+
 const clamp = (n: number) => Math.min(100, Math.max(0, n));
 
 export function CompareSlider({
@@ -35,7 +38,7 @@ export function CompareSlider({
   elevated = false,
   introGlide = false,
   priority = false,
-  sizes = "(max-width: 768px) 100vw, 600px",
+  sizes = HERO_SIZES,
   unoptimized = false,
   flush = false,
 }: Props) {
@@ -103,9 +106,9 @@ export function CompareSlider({
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
     >
-      <Image src={before} alt={`${alt}, original`} fill sizes={sizes} className={styles.img} priority={priority} unoptimized={unoptimized} draggable={false} />
+      <Image src={before} alt={`${alt}, original`} fill sizes={sizes} className={styles.img} preload={priority} fetchPriority={priority ? "high" : undefined} unoptimized={unoptimized} draggable={false} />
       <div className={styles.after} style={{ clipPath: `inset(0 0 0 ${pos}%)` }}>
-        <Image src={after} alt={`${alt}, ${afterLabel}`} fill sizes={sizes} className={styles.img} priority={priority} unoptimized={unoptimized} draggable={false} />
+        <Image src={after} alt={`${alt}, ${afterLabel}`} fill sizes={sizes} className={styles.img} preload={priority} fetchPriority={priority ? "high" : undefined} unoptimized={unoptimized} draggable={false} />
       </div>
       <span className={`${styles.tag} ${styles.before}`}>Original</span>
       <span className={`${styles.tag} ${styles.afterTag}`}>{afterLabel}</span>

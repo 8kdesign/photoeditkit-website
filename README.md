@@ -32,3 +32,10 @@ npm run build && npm start
 Recipe cards show a striped placeholder (`SamplePlaceholder` in `components/RecipeBrowser.tsx`).
 When you have before/after pairs, add a `sample` slug to each recipe in `lib/content.ts`, put the images in
 `public/recipes/`, and render `<CompareSlider size="sm" aspectRatio="4 / 3" … />` instead of the placeholder.
+
+## Deploying
+
+Set `NEXT_PUBLIC_SITE_URL` to the production address (for example `https://photoeditkit.dev`) before
+`npm run build`. It drives canonical links, Open Graph URLs, `/sitemap.xml` and `/robots.txt`
+(`lib/site.ts`). On Vercel the production domain is used automatically when the variable isn't set.
+The social preview image is generated from `app/opengraph-image.tsx`.
