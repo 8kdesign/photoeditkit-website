@@ -235,6 +235,10 @@
   color: var(--accent);
 }
 
+.filterWrap {
+  position: relative;
+}
+
 /* Threshold line across the bar column */
 .threshold {
   position: absolute;

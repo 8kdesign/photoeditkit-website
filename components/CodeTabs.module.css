@@ -14,6 +14,17 @@
   border-bottom: 1px solid var(--code-line);
 }
 
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.pre:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
 .tab {
   height: 40px;
   padding: 0 var(--space-3);

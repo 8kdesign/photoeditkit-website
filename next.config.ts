@@ -11,20 +11,20 @@ const localAddresses = Object.values(networkInterfaces())
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1", "*.local", ...localAddresses],
-  poweredByHeader: false,
   images: {
     formats: ["image/avif", "image/webp"],
-    // Resized images are cached for 30 days instead of the default 4 hours.
-    minimumCacheTTL: 60 * 60 * 24 * 30,
+    // Resized images from next/image: cache for 31 days (default is 4 hours).
+    minimumCacheTTL: 2678400,
   },
+  // Files in /public are served with max-age=0 by default, so browsers re-check them on every
+  // visit. Cache photos, logos and icons for 30 days. If you replace one of these files and need
+  // returning visitors to see it straight away, give the new file a new name.
   async headers() {
-    // Static assets in public/ are not content-hashed, so cache them for a day and revalidate
-    // in the background rather than forever.
-    const cache = "public, max-age=86400, stale-while-revalidate=604800";
+    const cache = [{ key: "Cache-Control", value: "public, max-age=2592000, stale-while-revalidate=86400" }];
     return [
-      { source: "/examples/:path*", headers: [{ key: "Cache-Control", value: cache }] },
-      { source: "/logo/:path*", headers: [{ key: "Cache-Control", value: cache }] },
-      { source: "/:file(icon-192.png|icon-512.png|autoedit-suggestions.webp)", headers: [{ key: "Cache-Control", value: cache }] },
+      { source: "/examples/:path*", headers: cache },
+      { source: "/logo/:path*", headers: cache },
+      { source: "/:file(autoedit-suggestions\\.webp|icon-192\\.png|icon-512\\.png|icon\\.svg|apple-icon\\.png|favicon\\.ico)", headers: cache },
     ];
   },
 };

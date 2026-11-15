@@ -66,13 +66,13 @@ export function InstallSnippet({ platform }: { platform: "ios" | "android" }) {
     overflowX: "auto" as const,
   };
   return platform === "ios" ? (
-    <pre style={style}>
+    <pre style={style} tabIndex={0} aria-label="Install snippet">
       <code>
         .package(url: <S>{'"https://github.com/8kdesign/PhotoEditKit"'}</S>, from: <S>{'"1.0.0"'}</S>)
       </code>
     </pre>
   ) : (
-    <pre style={style}>
+    <pre style={style} tabIndex={0} aria-label="Install snippet">
       <code>
         implementation(<S>{'"com.logicui:photoeditkit:1.0.1"'}</S>)
       </code>

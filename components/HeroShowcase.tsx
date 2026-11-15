@@ -1,49 +1,44 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import Image, { getImageProps } from "next/image";
+import { useEffect, useState } from "react";
 import { examples } from "@/lib/content";
-import { CompareSlider, HERO_SIZES } from "./CompareSlider";
-import { ExampleImage, warmExampleImage } from "./ExampleImage";
+import { CompareSlider } from "./CompareSlider";
 
-const pair = (slug: string) => [`/examples/${slug}-original.jpg`, `/examples/${slug}-edited.jpg`];
-
-/** Whether the visitor asked to save data or is on a slow connection. */
-function constrainedNetwork() {
-  const c = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
-  return !!c && (c.saveData === true || /(^|-)2g$|^3g$/.test(c.effectiveType ?? ""));
-}
+/** The slider is full width on phones and tablets, and about 600px wide beside the text on desktop. */
+const heroSizes = "(max-width: 1043px) calc(100vw - 48px), 600px";
 
 export function HeroShowcase() {
   const [selected, setSelected] = useState(0);
   const photo = examples[selected];
-  const warmed = useRef(new Set<string>());
 
-  // Fetch the same file the slider will pick (AVIF at the right width, or the JPEG on older
-  // browsers), so a switch is instant without downloading every photo up front.
-  const warm = useCallback((slug: string) => {
-    if (warmed.current.has(slug)) return;
-    warmed.current.add(slug);
-    for (const src of pair(slug)) warmExampleImage(src, HERO_SIZES);
-  }, []);
-
-  // Once the page has loaded and the browser is idle, warm the remaining examples,
-  // unless the visitor is saving data. Otherwise they load on hover, focus or touch.
+  // Once the page has loaded, quietly fetch the other examples (optimised, at the size this
+  // screen needs) so switching between them is instant without slowing the first paint.
   useEffect(() => {
-    warmed.current.add(examples[0].slug);
-    if (constrainedNetwork()) return;
-    const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 1500));
-    const cancelIdle = window.cancelIdleCallback ?? window.clearTimeout;
-    let handle: number | undefined;
-    const start = () => {
-      handle = idle(() => examples.slice(1).forEach((p) => warm(p.slug))) as number;
+    const warm = () => {
+      for (const p of examples) {
+        for (const kind of ["original", "edited"]) {
+          const { props } = getImageProps({
+            src: `/examples/${p.slug}-${kind}.jpg`,
+            alt: "",
+            fill: true,
+            sizes: heroSizes,
+          });
+          const img = new window.Image();
+          if (props.sizes) img.sizes = props.sizes;
+          if (props.srcSet) img.srcset = props.srcSet;
+          img.src = props.src;
+        }
+      }
     };
-    if (document.readyState === "complete") start();
-    else window.addEventListener("load", start, { once: true });
-    return () => {
-      window.removeEventListener("load", start);
-      if (handle !== undefined) cancelIdle(handle);
+    const idle = () => {
+      if (typeof window.requestIdleCallback === "function") window.requestIdleCallback(warm, { timeout: 3000 });
+      else setTimeout(warm, 500);
     };
-  }, [warm]);
+    if (document.readyState === "complete") idle();
+    else window.addEventListener("load", idle, { once: true });
+    return () => window.removeEventListener("load", idle);
+  }, []);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 16, minWidth: 0 }}>
@@ -55,6 +50,7 @@ export function HeroShowcase() {
         elevated
         introGlide={selected === 0}
         priority={selected === 0}
+        sizes={heroSizes}
       />
       <div role="group" aria-label="Example photos" style={{ display: "flex", gap: 8, overflowX: "auto", padding: 4 }}>
         {examples.map((p, i) => {
@@ -66,9 +62,6 @@ export function HeroShowcase() {
               aria-pressed={active}
               aria-label={p.name}
               onClick={() => setSelected(i)}
-              onPointerEnter={() => warm(p.slug)}
-              onPointerDown={() => warm(p.slug)}
-              onFocus={() => warm(p.slug)}
               style={{
                 flex: "0 0 auto",
                 width: 80,
@@ -93,7 +86,7 @@ export function HeroShowcase() {
                   transition: "box-shadow 150ms ease-out",
                 }}
               >
-                <ExampleImage src={`/examples/${p.slug}-edited.jpg`} alt="" sizes="80px" style={{ objectFit: "cover" }} />
+                <Image src={`/examples/${p.slug}-edited.jpg`} alt="" fill sizes="80px" style={{ objectFit: "cover" }} />
               </span>
             </button>
           );

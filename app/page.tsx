@@ -1,29 +1,16 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { HeroShowcase } from '@/components/HeroShowcase';
-import { HomeCode, InstallSnippet } from '@/components/HomeCode';
-import { ProcessDiagram } from '@/components/ProcessDiagram';
-import {
-  ArrowRight,
-  Badge,
-  ButtonLink,
-  Eyebrow,
-  GitHubIcon,
-  SectionTitle,
-  cardClass,
-} from '@/components/ui';
-import {
-  homeRecipeGroups,
-  links,
-  recipeKinds,
-  type RecipeKind,
-} from '@/lib/content';
-import styles from './page.module.css';
+import Image from "next/image";
+import Link from "next/link";
+import { HeroShowcase } from "@/components/HeroShowcase";
+import { HomeCode, InstallSnippet } from "@/components/HomeCode";
+import { ProcessDiagram } from "@/components/ProcessDiagram";
+import { ArrowRight, Badge, ButtonLink, Eyebrow, GitHubIcon, SectionTitle, cardClass } from "@/components/ui";
+import { homeRecipeGroups, links, recipeKinds, type RecipeKind } from "@/lib/content";
+import styles from "./page.module.css";
 
 const kindDot: Record<RecipeKind, string> = {
-  correction: 'var(--accent)',
-  style: 'var(--warm)',
-  theme: 'var(--theme-tag)',
+  correction: "var(--accent)",
+  style: "var(--warm)",
+  theme: "var(--theme-tag)",
 };
 
 export default function HomePage() {
@@ -32,33 +19,17 @@ export default function HomePage() {
       <section className={`container ${styles.hero}`}>
         <div className={styles.heroCopy}>
           <Eyebrow>On-device photo editing · iOS · macOS · Android</Eyebrow>
-          <h1 className={styles.heroTitle}>
-            One call gives a photo the edit it needs.
-          </h1>
+          <h1 className={styles.heroTitle}>One call gives a photo the edit it needs.</h1>
           <p className={styles.lead}>
-            PhotoEditKit reads exposure, colour cast, faces, subject and grain,
-            then suggests ranked edits you can show in a picker or apply
-            instantly. Entirely on the device.
-          </p>
-          <p className={styles.lead}>
-            Free to use in any projects, open source or commercial.
+            PhotoEditKit reads exposure, colour cast, faces, subject and grain, then suggests ranked edits you can
+            show in a picker or apply instantly. Entirely on the device.
           </p>
           <div className={styles.row}>
-            <ButtonLink
-              href={links.iosRepo}
-              size="lg"
-              variant="secondary"
-              external
-            >
+            <ButtonLink href={links.iosRepo} size="lg" variant="secondary" external>
               <GitHubIcon />
               iOS &amp; macOS
             </ButtonLink>
-            <ButtonLink
-              href={links.androidRepo}
-              size="lg"
-              variant="secondary"
-              external
-            >
+            <ButtonLink href={links.androidRepo} size="lg" variant="secondary" external>
               <GitHubIcon />
               Android
             </ButtonLink>
@@ -74,10 +45,12 @@ export default function HomePage() {
           <Eyebrow>One call</Eyebrow>
           <SectionTitle>The edit a photo needs, or none at all.</SectionTitle>
           <p className={styles.body}>
-            Pass a small upright copy and its metadata. You get back an{' '}
-            <code className="inline-code">EditConfig</code> to render, or
-            nothing when the photo is already good. Want a picker instead? Ask
-            for up to ten ranked suggestions with thumbnails.
+            Pass a small upright copy and its metadata. You get back an <code className="inline-code">EditConfig</code>{" "}
+            to render, or nothing when the photo is already good. Want a picker instead? Ask for up to ten ranked
+            suggestions with thumbnails.
+          </p>
+          <p className={styles.note}>
+            About 0.3 s for the first photo on an iPhone 17 with <code>prewarm()</code> at launch.
           </p>
         </div>
         <div className={styles.splitMedia}>
@@ -97,9 +70,7 @@ export default function HomePage() {
         <div className={styles.headingRow}>
           <div className={styles.heading}>
             <Eyebrow>The recipes</Eyebrow>
-            <SectionTitle>
-              Recipes tuned to handle various scenarios.
-            </SectionTitle>
+            <SectionTitle>Fixed recipes, tuned to every photo.</SectionTitle>
           </div>
           <Link href="/recipes" className={styles.link}>
             See every recipe →
@@ -109,10 +80,7 @@ export default function HomePage() {
           {(Object.keys(homeRecipeGroups) as RecipeKind[]).map((kind) => (
             <div key={kind} className={`${cardClass} ${styles.recipeCard}`}>
               <div className={styles.recipeHead}>
-                <span
-                  className={styles.dot}
-                  style={{ background: kindDot[kind] }}
-                />
+                <span className={styles.dot} style={{ background: kindDot[kind] }} />
                 <h3 className={styles.cardTitle}>{recipeKinds[kind].plural}</h3>
               </div>
               <p className={styles.cardText}>{recipeKinds[kind].summary}</p>
@@ -133,9 +101,8 @@ export default function HomePage() {
           <Eyebrow>Try it</Eyebrow>
           <SectionTitle>See it on your own photos.</SectionTitle>
           <p className={styles.body}>
-            AutoEdit runs the PhotoEditKit on iPhone. Pick a photo from your
-            gallery and swipe through the looks it suggests, before exporting
-            the one you like.
+            AutoEdit runs the PhotoEditKit algorithm on iPhone. Pick a photo and swipe through the looks it suggests,
+            ranked for that photo.
           </p>
           <div className={styles.row}>
             <ButtonLink href={links.autoEditAppStore} size="lg" external>
@@ -150,7 +117,7 @@ export default function HomePage() {
             alt="AutoEdit on iPhone, showing a lake photo with the Punch look applied and a row of suggested looks below"
             width={773}
             height={913}
-            sizes="(max-width: 768px) 80vw, 420px"
+            sizes="(max-width: 719px) calc(100vw - 48px), 420px"
             className={styles.tryImage}
           />
         </div>
@@ -161,10 +128,9 @@ export default function HomePage() {
           <div className={styles.privacyCopy}>
             <Eyebrow>Private by design</Eyebrow>
             <SectionTitle>Zero network requests.</SectionTitle>
-            <p className={styles.lead} style={{ maxWidth: 'none' }}>
-              No remote models to download, no tracking. Safe for app extensions
-              and strict offline requirements. What it learns from a user’s
-              saves stays on their device.
+            <p className={styles.lead} style={{ maxWidth: "none" }}>
+              No remote models to download, no tracking. Safe for app extensions and strict offline requirements.
+              What it learns from a user’s saves stays on their device.
             </p>
           </div>
         </div>

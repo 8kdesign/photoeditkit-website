@@ -81,7 +81,9 @@ export function ProcessDiagram() {
       </Step>
 
       <Step n={4} title="Drop the weak ones" text="Recipes that score too low are filtered out. A balanced photo may keep none.">
-        <ul className={`${styles.list} ${styles.filtered}`} style={{ "--t": threshold } as CSSProperties}>
+        <div className={styles.filterWrap} style={{ "--t": threshold } as CSSProperties}>
+        <span className={styles.threshold} />
+        <ul className={`${styles.list} ${styles.filtered}`}>
           {run.map((r) => (
             <li key={r.name} className={styles.scoreRow} data-out={r.score < threshold ? "" : undefined}>
               <span className={styles.name}>{r.name}</span>
@@ -91,8 +93,8 @@ export function ProcessDiagram() {
               <span className={styles.value}>{r.score < threshold ? "×" : "✓"}</span>
             </li>
           ))}
-          <span className={styles.threshold} />
         </ul>
+        </div>
       </Step>
 
       <Step n={5} title="Suggest the edits" text="Returns the survivors ranked, ready to show in a picker or apply.">
