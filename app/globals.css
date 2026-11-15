@@ -99,6 +99,23 @@ html {
   scroll-behavior: smooth;
 }
 
+/* On page changes Next.js scrolls <main> into view; the margin keeps the
+   sticky header's height from being left above it, so pages land at the top. */
+main {
+  scroll-margin-top: 100vh;
+}
+
+/* Space above the first section of a page (matches the home hero). */
+.page-top {
+  padding-top: var(--space-24);
+}
+
+@media (max-width: 768px) {
+  .page-top {
+    padding-top: var(--space-12);
+  }
+}
+
 body {
   margin: 0;
   background: var(--canvas);

@@ -2,32 +2,17 @@ import type { Metadata } from "next";
 import { RecipeBrowser } from "@/components/RecipeBrowser";
 import { Eyebrow } from "@/components/ui";
 
-const description =
-  "Every PhotoEditKit suggestion comes from a fixed set of 19 recipes — corrections, styles and themes — calibrated to each photo. Compare each one before and after.";
-
 export const metadata: Metadata = {
-  title: "Recipes — every correction, style and theme",
-  description,
-  alternates: { canonical: "/recipes" },
-  openGraph: {
-    type: "website",
-    siteName: "PhotoEditKit",
-    url: "/recipes",
-    title: "PhotoEditKit recipes — every correction, style and theme",
-    description,
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "PhotoEditKit recipes",
-    description,
-  },
+  title: "Recipes",
+  description:
+    "Every PhotoEditKit suggestion comes from a fixed set of corrections, styles and themes, calibrated to each photo.",
 };
 
 export default function RecipesPage() {
   return (
     <main
-      className="container"
-      style={{ paddingTop: 80, paddingBottom: 96, display: "flex", flexDirection: "column", gap: 40 }}
+      className="container page-top"
+      style={{ paddingBottom: 96, display: "flex", flexDirection: "column", gap: 40 }}
     >
       <RecipeBrowser
         intro={
