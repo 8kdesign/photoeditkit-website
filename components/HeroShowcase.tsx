@@ -1,9 +1,9 @@
 "use client";
 
-import Image, { getImageProps } from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { examples } from "@/lib/content";
 import { CompareSlider, HERO_SIZES } from "./CompareSlider";
+import { ExampleImage, warmExampleImage } from "./ExampleImage";
 
 const pair = (slug: string) => [`/examples/${slug}-original.jpg`, `/examples/${slug}-edited.jpg`];
 
@@ -18,19 +18,12 @@ export function HeroShowcase() {
   const photo = examples[selected];
   const warmed = useRef(new Set<string>());
 
-  // Fetch the same resized AVIF/WebP the slider will ask for (same srcset and sizes), not the
-  // 1600px originals, so a switch is instant without downloading megabytes up front.
+  // Fetch the same file the slider will pick (AVIF at the right width, or the JPEG on older
+  // browsers), so a switch is instant without downloading every photo up front.
   const warm = useCallback((slug: string) => {
     if (warmed.current.has(slug)) return;
     warmed.current.add(slug);
-    for (const src of pair(slug)) {
-      const { props } = getImageProps({ src, alt: "", fill: true, sizes: HERO_SIZES });
-      const img = new window.Image();
-      img.decoding = "async";
-      if (props.sizes) img.sizes = props.sizes;
-      if (props.srcSet) img.srcset = props.srcSet;
-      img.src = props.src;
-    }
+    for (const src of pair(slug)) warmExampleImage(src, HERO_SIZES);
   }, []);
 
   // Once the page has loaded and the browser is idle, warm the remaining examples,
@@ -100,7 +93,7 @@ export function HeroShowcase() {
                   transition: "box-shadow 150ms ease-out",
                 }}
               >
-                <Image src={`/examples/${p.slug}-edited.jpg`} alt="" fill sizes="80px" style={{ objectFit: "cover" }} />
+                <ExampleImage src={`/examples/${p.slug}-edited.jpg`} alt="" sizes="80px" style={{ objectFit: "cover" }} />
               </span>
             </button>
           );

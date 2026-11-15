@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
+import { ExampleImage } from "./ExampleImage";
 import styles from "./CompareSlider.module.css";
 
 type Props = {
@@ -17,8 +17,6 @@ type Props = {
   introGlide?: boolean;
   priority?: boolean;
   sizes?: string;
-  /** Serve the files as-is (no on-demand resizing), so switching photos is instant. */
-  unoptimized?: boolean;
   /** Square corners, for a slider set flush into the top of a card. */
   flush?: boolean;
 };
@@ -39,7 +37,6 @@ export function CompareSlider({
   introGlide = false,
   priority = false,
   sizes = HERO_SIZES,
-  unoptimized = false,
   flush = false,
 }: Props) {
   const frameRef = useRef<HTMLDivElement>(null);
@@ -106,9 +103,9 @@ export function CompareSlider({
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
     >
-      <Image src={before} alt={`${alt}, original`} fill sizes={sizes} className={styles.img} preload={priority} fetchPriority={priority ? "high" : undefined} unoptimized={unoptimized} draggable={false} />
+      <ExampleImage src={before} alt={`${alt}, original`} sizes={sizes} className={styles.img} preload={priority} draggable={false} />
       <div className={styles.after} style={{ clipPath: `inset(0 0 0 ${pos}%)` }}>
-        <Image src={after} alt={`${alt}, ${afterLabel}`} fill sizes={sizes} className={styles.img} preload={priority} fetchPriority={priority ? "high" : undefined} unoptimized={unoptimized} draggable={false} />
+        <ExampleImage src={after} alt={`${alt}, ${afterLabel}`} sizes={sizes} className={styles.img} preload={priority} draggable={false} />
       </div>
       <span className={`${styles.tag} ${styles.before}`}>Original</span>
       <span className={`${styles.tag} ${styles.afterTag}`}>{afterLabel}</span>

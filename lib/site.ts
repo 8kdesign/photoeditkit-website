@@ -1,13 +1,10 @@
 /**
  * Canonical site address, used for canonical links, Open Graph URLs, the sitemap and robots.txt.
- * Set NEXT_PUBLIC_SITE_URL to the production domain (e.g. https://photoeditkit.dev) when deploying.
- * On Vercel the production domain is picked up automatically if the variable isn't set.
+ * Defaults to the production domain; set NEXT_PUBLIC_SITE_URL to override it (e.g. for a staging deploy).
  */
-const fromEnv =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : undefined);
+const productionUrl = "https://www.gongxifac.ai";
 
-export const siteUrl = (fromEnv ?? "http://localhost:3000").replace(/\/+$/, "");
+export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? productionUrl).replace(/\/+$/, "");
 
 export const site = {
   name: "PhotoEditKit",
