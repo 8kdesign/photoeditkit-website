@@ -165,17 +165,20 @@
 }
 
 .body {
-  padding: var(--space-4) 20px var(--space-6);
+  flex: 1;
+  padding: var(--space-4) 20px 20px;
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
 }
 
 .meta {
+  margin-top: auto;
+  padding-top: var(--space-1);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--space-2);
+  justify-content: flex-end;
+  gap: var(--space-3);
 }
 
 .note {
@@ -185,7 +188,7 @@
 }
 
 .name {
-  margin: var(--space-1) 0 0;
+  margin: 0;
   font-size: 20px;
   line-height: 28px;
   font-weight: 600;

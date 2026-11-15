@@ -54,12 +54,12 @@ function RecipeCard({ recipe }: { recipe: Recipe }) {
         <SamplePlaceholder name={recipe.name} />
       )}
       <div className={styles.body}>
-        <div className={styles.meta}>
-          <Badge tone={recipe.kind}>{recipeKinds[recipe.kind].label}</Badge>
-          {recipe.note ? <span className={styles.note}>{recipe.note}</span> : null}
-        </div>
         <h2 className={styles.name}>{recipe.name}</h2>
         <p className={styles.desc}>{recipe.description}</p>
+        <div className={styles.meta}>
+          {recipe.note ? <span className={styles.note}>{recipe.note}</span> : null}
+          <Badge tone={recipe.kind}>{recipeKinds[recipe.kind].label}</Badge>
+        </div>
       </div>
     </article>
   );

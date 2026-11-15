@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import type { ReactNode } from 'react';
 import { HeroShowcase } from '@/components/HeroShowcase';
 import { HomeCode, InstallSnippet } from '@/components/HomeCode';
+import { ProcessDiagram } from '@/components/ProcessDiagram';
 import {
   ArrowRight,
   Badge,
@@ -18,126 +18,7 @@ import {
   recipeKinds,
   type RecipeKind,
 } from '@/lib/content';
-import { site, siteUrl } from '@/lib/site';
 import styles from './page.module.css';
-
-const structuredData = {
-  '@context': 'https://schema.org',
-  '@graph': [
-    {
-      '@type': 'WebSite',
-      '@id': `${siteUrl}/#website`,
-      url: `${siteUrl}/`,
-      name: site.name,
-      description: site.description,
-      publisher: { '@id': `${siteUrl}/#org` },
-      inLanguage: 'en',
-    },
-    {
-      '@type': 'Organization',
-      '@id': `${siteUrl}/#org`,
-      name: site.author,
-      logo: `${siteUrl}/icon-512.png`,
-    },
-    {
-      '@type': 'SoftwareSourceCode',
-      name: 'PhotoEditKit for iOS & macOS',
-      description: site.description,
-      codeRepository: links.iosRepo,
-      programmingLanguage: 'Swift',
-      runtimePlatform: ['iOS 17.6+', 'macOS 15+'],
-      author: { '@id': `${siteUrl}/#org` },
-      isAccessibleForFree: true,
-    },
-    {
-      '@type': 'SoftwareSourceCode',
-      name: 'PhotoEditKit for Android',
-      description: site.description,
-      codeRepository: links.androidRepo,
-      programmingLanguage: 'Kotlin',
-      runtimePlatform: 'Android 10+',
-      author: { '@id': `${siteUrl}/#org` },
-      isAccessibleForFree: true,
-    },
-  ],
-};
-
-const icon = (paths: ReactNode) => (
-  <span className={styles.icon}>
-    <svg
-      viewBox="0 0 20 20"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      {paths}
-    </svg>
-  </span>
-);
-
-const features: { icon: ReactNode; title: string; text: string }[] = [
-  {
-    icon: icon(
-      <path d="M10 2.5v3M10 14.5v3M2.5 10h3M14.5 10h3M5 5l2 2M13 13l2 2M15 5l-2 2M7 13l-2 2" />,
-    ),
-    title: 'Adaptive suggestions',
-    text: 'Up to ten ranked looks per photo, each calibrated to it, with localized titles and thumbnails. A balanced photo gets no edit.',
-  },
-  {
-    icon: icon(
-      <>
-        <circle cx="10" cy="10" r="7" />
-        <path d="M7.5 12.2c1.4 1.3 3.6 1.3 5 0" />
-        <path d="M7.5 8h.01M12.5 8h.01" />
-      </>,
-    ),
-    title: 'Skin tones stay natural',
-    text: 'Every recipe guards facial hue and saturation, so people look like themselves even under strong colour moves.',
-  },
-  {
-    icon: icon(
-      <>
-        <path d="M3 15l4-4 3 3 7-7" />
-        <path d="M13 7h4v4" />
-      </>,
-    ),
-    title: 'Learns on the device',
-    text: 'Looks a user keeps picking move up the list, within strict bounds. Learning stays on the phone and resets with one call.',
-  },
-  {
-    icon: icon(
-      <>
-        <rect x="3" y="4" width="14" height="12" rx="2" />
-        <path d="M7 8v4M7 8h2a1 1 0 0 1 0 2H7M9 10l1.2 2M12.5 8l1 4 1-4" />
-      </>,
-    ),
-    title: 'RAW-aware',
-    text: 'Matches the camera’s own rendering of a RAW capture, then builds every other look on top of it.',
-  },
-  {
-    icon: icon(
-      <>
-        <circle cx="10" cy="10" r="3.5" />
-        <path d="M10 2.5v2M10 15.5v2M2.5 10h2M15.5 10h2" />
-      </>,
-    ),
-    title: 'HDR and Live Photos kept',
-    text: 'Exports keep the iPhone’s HDR gain map and Android’s Ultra HDR. Live Photos and Motion Photos stay paired.',
-  },
-  {
-    icon: icon(
-      <>
-        <rect x="3" y="5" width="10" height="10" rx="2" />
-        <path d="M13 9l4-2.5v7L13 11" />
-      </>,
-    ),
-    title: 'Video, scene by scene',
-    text: 'Pick a look on the first frame; it is worked out again for each new scene so the whole clip matches.',
-  },
-];
 
 const kindDot: Record<RecipeKind, string> = {
   correction: 'var(--accent)',
@@ -148,12 +29,6 @@ const kindDot: Record<RecipeKind, string> = {
 export default function HomePage() {
   return (
     <main>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData).replace(/</g, '\\u003c'),
-        }}
-      />
       <section className={`container ${styles.hero}`}>
         <div className={styles.heroCopy}>
           <Eyebrow>On-device photo editing · iOS · macOS · Android</Eyebrow>
@@ -164,6 +39,9 @@ export default function HomePage() {
             PhotoEditKit reads exposure, colour cast, faces, subject and grain,
             then suggests ranked edits you can show in a picker or apply
             instantly. Entirely on the device.
+          </p>
+          <p className={styles.lead}>
+            Free to use in any projects, open source or commercial.
           </p>
           <div className={styles.row}>
             <ButtonLink
@@ -201,10 +79,6 @@ export default function HomePage() {
             nothing when the photo is already good. Want a picker instead? Ask
             for up to ten ranked suggestions with thumbnails.
           </p>
-          <p className={styles.note}>
-            About 0.3 s for the first photo on an iPhone 17 with{' '}
-            <code>prewarm()</code> at launch.
-          </p>
         </div>
         <div className={styles.splitMedia}>
           <HomeCode />
@@ -213,18 +87,10 @@ export default function HomePage() {
 
       <section className={`container ${styles.section}`}>
         <div className={styles.heading}>
-          <Eyebrow>What it handles</Eyebrow>
+          <Eyebrow>How it works</Eyebrow>
           <SectionTitle>More than a filter list.</SectionTitle>
         </div>
-        <div className={styles.grid}>
-          {features.map((f) => (
-            <div key={f.title} className={`${cardClass} ${styles.featureCard}`}>
-              {f.icon}
-              <h3 className={styles.cardTitle}>{f.title}</h3>
-              <p className={styles.cardText}>{f.text}</p>
-            </div>
-          ))}
-        </div>
+        <ProcessDiagram />
       </section>
 
       <section className={`container ${styles.section}`}>
@@ -267,8 +133,9 @@ export default function HomePage() {
           <Eyebrow>Try it</Eyebrow>
           <SectionTitle>See it on your own photos.</SectionTitle>
           <p className={styles.body}>
-            AutoEdit runs the PhotoEditKit algorithm on iPhone. Pick a photo and
-            swipe through the looks it suggests, ranked for that photo.
+            AutoEdit runs the PhotoEditKit on iPhone. Pick a photo from your
+            gallery and swipe through the looks it suggests, before exporting
+            the one you like.
           </p>
           <div className={styles.row}>
             <ButtonLink href={links.autoEditAppStore} size="lg" external>
