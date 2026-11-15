@@ -1,24 +1,27 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import { recipeKinds, recipes, type Recipe, type RecipeKind } from "@/lib/content";
+import { recipes, type Recipe, type RecipeKind } from "@/lib/content";
+import { fmt } from "@/lib/i18n";
 import { CompareSlider } from "./CompareSlider";
+import { useI18n } from "./I18nProvider";
 import { Badge } from "./ui";
 import styles from "./RecipeBrowser.module.css";
 
 type Filter = "all" | RecipeKind;
 
-const filters: { id: Filter; label: string; dot: string }[] = [
-  { id: "all", label: "All", dot: "var(--ink-muted)" },
-  { id: "correction", label: "Corrections", dot: "var(--accent)" },
-  { id: "style", label: "Styles", dot: "var(--warm)" },
-  { id: "theme", label: "Themes", dot: "var(--theme-tag)" },
+const filters: { id: Filter; dot: string }[] = [
+  { id: "all", dot: "var(--ink-muted)" },
+  { id: "correction", dot: "var(--accent)" },
+  { id: "style", dot: "var(--warm)" },
+  { id: "theme", dot: "var(--theme-tag)" },
 ];
 
 /** Shown until each recipe has a real before/after pair. */
 function SamplePlaceholder({ name }: { name: string }) {
+  const { t } = useI18n();
   return (
-    <div className={styles.sample} role="img" aria-label={`Sample placeholder: ${name} before and after`}>
+    <div className={styles.sample} role="img" aria-label={fmt(t.recipesPage.placeholderLabel, { name })}>
       <div className={styles.half} />
       <div className={styles.half} />
       <div className={styles.split} />
@@ -27,14 +30,16 @@ function SamplePlaceholder({ name }: { name: string }) {
           <path d="M7 6l-4 4 4 4M13 6l4 4-4 4" />
         </svg>
       </div>
-      <span className={`${styles.tag} ${styles.tagLeft}`}>Original</span>
+      <span className={`${styles.tag} ${styles.tagLeft}`}>{t.slider.original}</span>
       <span className={`${styles.tag} ${styles.tagRight}`}>{name}</span>
-      <span className={styles.sampleNote}>Sample photo</span>
+      <span className={styles.sampleNote}>{t.recipesPage.placeholderNote}</span>
     </div>
   );
 }
 
 function RecipeCard({ recipe }: { recipe: Recipe }) {
+  const { t } = useI18n();
+  const text = t.recipes[recipe.name] ?? { name: recipe.name, description: "" };
   return (
     <article className={styles.card}>
       {recipe.sample ? (
@@ -42,8 +47,8 @@ function RecipeCard({ recipe }: { recipe: Recipe }) {
           <CompareSlider
             before={`/examples/${recipe.sample}-original.jpg`}
             after={`/examples/${recipe.sample}-edited.jpg`}
-            alt={`${recipe.name} sample`}
-            afterLabel={recipe.name}
+            alt={fmt(t.recipesPage.sampleAlt, { name: text.name })}
+            afterLabel={text.name}
             aspectRatio="1 / 1"
             size="sm"
             flush
@@ -51,14 +56,14 @@ function RecipeCard({ recipe }: { recipe: Recipe }) {
           />
         </div>
       ) : (
-        <SamplePlaceholder name={recipe.name} />
+        <SamplePlaceholder name={text.name} />
       )}
       <div className={styles.body}>
-        <h2 className={styles.name}>{recipe.name}</h2>
-        <p className={styles.desc}>{recipe.description}</p>
+        <h2 className={styles.name}>{text.name}</h2>
+        <p className={styles.desc}>{text.description}</p>
         <div className={styles.meta}>
-          {recipe.note ? <span className={styles.note}>{recipe.note}</span> : null}
-          <Badge tone={recipe.kind}>{recipeKinds[recipe.kind].label}</Badge>
+          {recipe.kind === "theme" ? <span className={styles.note}>{t.recipesPage.onRequest}</span> : null}
+          <Badge tone={recipe.kind}>{t.kinds[recipe.kind].label}</Badge>
         </div>
       </div>
     </article>
@@ -67,13 +72,14 @@ function RecipeCard({ recipe }: { recipe: Recipe }) {
 
 export function RecipeBrowser({ intro }: { intro: ReactNode }) {
   const [filter, setFilter] = useState<Filter>("all");
+  const { t } = useI18n();
   const shown = recipes.filter((r) => filter === "all" || r.kind === filter);
 
   return (
     <>
       <div className={styles.top}>
         <div className={styles.intro}>{intro}</div>
-      <div role="group" aria-label="Filter recipes" className={styles.filters}>
+      <div role="group" aria-label={t.recipesPage.filtersLabel} className={styles.filters}>
         {filters.map((f) => {
           const count = f.id === "all" ? recipes.length : recipes.filter((r) => r.kind === f.id).length;
           return (
@@ -85,7 +91,7 @@ export function RecipeBrowser({ intro }: { intro: ReactNode }) {
               onClick={() => setFilter(f.id)}
             >
               <span className={styles.dot} style={{ background: f.dot }} />
-              {f.label}
+              {f.id === "all" ? t.recipesPage.all : t.kinds[f.id].plural}
               <span className={styles.count}>{count}</span>
             </button>
           );

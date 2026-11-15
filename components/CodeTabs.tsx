@@ -1,6 +1,8 @@
 "use client";
 
 import { useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import { fmt } from "@/lib/i18n";
+import { useI18n } from "./I18nProvider";
 import styles from "./CodeTabs.module.css";
 
 export type CodeSample = {
@@ -14,6 +16,7 @@ export type CodeSample = {
 export function CodeTabs({ samples }: { samples: CodeSample[] }) {
   const [active, setActive] = useState(0);
   const [copied, setCopied] = useState(false);
+  const { t } = useI18n();
   const sample = samples[active];
   const id = useId();
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -44,7 +47,7 @@ export function CodeTabs({ samples }: { samples: CodeSample[] }) {
   return (
     <div className={styles.box}>
       <div className={styles.bar}>
-        <div className={styles.tabs} role="tablist" aria-label="Language">
+        <div className={styles.tabs} role="tablist" aria-label={t.code.tabsLabel}>
           {samples.map((s, i) => (
             <button
               key={s.label}
@@ -65,8 +68,8 @@ export function CodeTabs({ samples }: { samples: CodeSample[] }) {
             </button>
           ))}
         </div>
-        <button type="button" className={styles.copy} onClick={copy} aria-label={`Copy ${sample.label} code`}>
-          {copied ? "Copied" : "Copy"}
+        <button type="button" className={styles.copy} onClick={copy} aria-label={fmt(t.code.copyLabel, { lang: sample.label })}>
+          {copied ? t.code.copied : t.code.copy}
         </button>
       </div>
       <pre

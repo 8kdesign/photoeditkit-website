@@ -1,34 +1,23 @@
 "use client";
 
-import Image, { getImageProps } from "next/image";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { examples } from "@/lib/content";
-import { CompareSlider } from "./CompareSlider";
-
-/** The slider is full width on phones and tablets, and about 600px wide beside the text on desktop. */
-const heroSizes = "(max-width: 1043px) calc(100vw - 48px), 600px";
+import { CompareSlider, HERO_SIZES } from "./CompareSlider";
+import { warmExampleImage } from "./ExampleImage";
+import { useI18n } from "./I18nProvider";
 
 export function HeroShowcase() {
+  const { t } = useI18n();
   const [selected, setSelected] = useState(0);
   const photo = examples[selected];
 
-  // Once the page has loaded, quietly fetch the other examples (optimised, at the size this
-  // screen needs) so switching between them is instant without slowing the first paint.
+  // Once the page has loaded, quietly fetch the other examples (the same AVIF files the slider
+  // will ask for) so switching between them is instant without slowing the first paint.
   useEffect(() => {
     const warm = () => {
       for (const p of examples) {
-        for (const kind of ["original", "edited"]) {
-          const { props } = getImageProps({
-            src: `/examples/${p.slug}-${kind}.jpg`,
-            alt: "",
-            fill: true,
-            sizes: heroSizes,
-          });
-          const img = new window.Image();
-          if (props.sizes) img.sizes = props.sizes;
-          if (props.srcSet) img.srcset = props.srcSet;
-          img.src = props.src;
-        }
+        for (const kind of ["original", "edited"]) warmExampleImage(`/examples/${p.slug}-${kind}.jpg`, HERO_SIZES);
       }
     };
     const idle = () => {
@@ -46,13 +35,12 @@ export function HeroShowcase() {
         key={photo.slug}
         before={`/examples/${photo.slug}-original.jpg`}
         after={`/examples/${photo.slug}-edited.jpg`}
-        alt={photo.name}
+        alt={t.hero.examples[photo.slug] ?? photo.slug}
         elevated
         introGlide={selected === 0}
         priority={selected === 0}
-        sizes={heroSizes}
       />
-      <div role="group" aria-label="Example photos" style={{ display: "flex", gap: 8, overflowX: "auto", padding: 4 }}>
+      <div role="group" aria-label={t.hero.examplesLabel} style={{ display: "flex", gap: 8, overflowX: "auto", padding: 4 }}>
         {examples.map((p, i) => {
           const active = i === selected;
           return (
@@ -60,7 +48,7 @@ export function HeroShowcase() {
               key={p.slug}
               type="button"
               aria-pressed={active}
-              aria-label={p.name}
+              aria-label={t.hero.examples[p.slug] ?? p.slug}
               onClick={() => setSelected(i)}
               style={{
                 flex: "0 0 auto",
@@ -93,7 +81,7 @@ export function HeroShowcase() {
         })}
       </div>
       <p style={{ margin: 0, fontSize: 13, lineHeight: "20px", color: "var(--ink-subtle)" }}>
-        Real PhotoEditKit outputs, unretouched. Drag across the photo to compare.
+        {t.hero.caption}
       </p>
     </div>
   );

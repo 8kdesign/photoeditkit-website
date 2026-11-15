@@ -1,10 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { HeroShowcase } from "@/components/HeroShowcase";
 import { HomeCode, InstallSnippet } from "@/components/HomeCode";
 import { ProcessDiagram } from "@/components/ProcessDiagram";
 import { ArrowRight, Badge, ButtonLink, Eyebrow, GitHubIcon, SectionTitle, cardClass } from "@/components/ui";
-import { homeRecipeGroups, links, recipeKinds, type RecipeKind } from "@/lib/content";
+import { homeRecipeGroups, links, type RecipeKind } from "@/lib/content";
+import { getDictionary } from "@/lib/dictionaries";
+import { hasLocale, localePath } from "@/lib/i18n";
+import { rich } from "@/lib/rich";
 import styles from "./page.module.css";
 
 const kindDot: Record<RecipeKind, string> = {
@@ -13,17 +17,18 @@ const kindDot: Record<RecipeKind, string> = {
   theme: "var(--theme-tag)",
 };
 
-export default function HomePage() {
+export default async function HomePage({ params }: PageProps<"/[lang]">) {
+  const { lang } = await params;
+  if (!hasLocale(lang)) notFound();
+  const t = getDictionary(lang);
+
   return (
     <main>
       <section className={`container ${styles.hero}`}>
         <div className={styles.heroCopy}>
-          <Eyebrow>On-device photo editing · iOS · macOS · Android</Eyebrow>
-          <h1 className={styles.heroTitle}>One call gives a photo the edit it needs.</h1>
-          <p className={styles.lead}>
-            PhotoEditKit reads exposure, colour cast, faces, subject and grain, then suggests ranked edits you can
-            show in a picker or apply instantly. Entirely on the device.
-          </p>
+          <Eyebrow>{t.hero.eyebrow}</Eyebrow>
+          <h1 className={styles.heroTitle}>{t.hero.title}</h1>
+          <p className={styles.lead}>{t.hero.lead}</p>
           <div className={styles.row}>
             <ButtonLink href={links.iosRepo} size="lg" variant="secondary" external>
               <GitHubIcon />
@@ -42,16 +47,9 @@ export default function HomePage() {
 
       <section className={`container ${styles.split}`}>
         <div className={styles.splitCopy}>
-          <Eyebrow>One call</Eyebrow>
-          <SectionTitle>The edit a photo needs, or none at all.</SectionTitle>
-          <p className={styles.body}>
-            Pass a small upright copy and its metadata. You get back an <code className="inline-code">EditConfig</code>{" "}
-            to render, or nothing when the photo is already good. Want a picker instead? Ask for up to ten ranked
-            suggestions with thumbnails.
-          </p>
-          <p className={styles.note}>
-            About 0.3 s for the first photo on an iPhone 17 with <code>prewarm()</code> at launch.
-          </p>
+          <Eyebrow>{t.oneCall.eyebrow}</Eyebrow>
+          <SectionTitle>{t.oneCall.title}</SectionTitle>
+          <p className={styles.body}>{rich(t.oneCall.body, "inline-code")}</p>
         </div>
         <div className={styles.splitMedia}>
           <HomeCode />
@@ -60,20 +58,20 @@ export default function HomePage() {
 
       <section className={`container ${styles.section}`}>
         <div className={styles.heading}>
-          <Eyebrow>How it works</Eyebrow>
-          <SectionTitle>More than a filter list.</SectionTitle>
+          <Eyebrow>{t.process.eyebrow}</Eyebrow>
+          <SectionTitle>{t.process.title}</SectionTitle>
         </div>
-        <ProcessDiagram />
+        <ProcessDiagram t={t} />
       </section>
 
       <section className={`container ${styles.section}`}>
         <div className={styles.headingRow}>
           <div className={styles.heading}>
-            <Eyebrow>The recipes</Eyebrow>
-            <SectionTitle>Fixed recipes, tuned to every photo.</SectionTitle>
+            <Eyebrow>{t.overview.eyebrow}</Eyebrow>
+            <SectionTitle>{t.overview.title}</SectionTitle>
           </div>
-          <Link href="/recipes" className={styles.link}>
-            See every recipe →
+          <Link href={localePath(lang, "/recipes")} className={styles.link}>
+            {t.overview.seeAll}
           </Link>
         </div>
         <div className={styles.grid}>
@@ -81,13 +79,13 @@ export default function HomePage() {
             <div key={kind} className={`${cardClass} ${styles.recipeCard}`}>
               <div className={styles.recipeHead}>
                 <span className={styles.dot} style={{ background: kindDot[kind] }} />
-                <h3 className={styles.cardTitle}>{recipeKinds[kind].plural}</h3>
+                <h3 className={styles.cardTitle}>{t.kinds[kind].plural}</h3>
               </div>
-              <p className={styles.cardText}>{recipeKinds[kind].summary}</p>
+              <p className={styles.cardText}>{t.kinds[kind].summary}</p>
               <div className={styles.tags}>
                 {homeRecipeGroups[kind].map((name) => (
                   <Badge key={name} tone={kind}>
-                    {name}
+                    {t.recipes[name]?.name ?? name}
                   </Badge>
                 ))}
               </div>
@@ -98,15 +96,12 @@ export default function HomePage() {
 
       <section id="try" className={`container ${styles.split} ${styles.tryIt}`}>
         <div className={styles.splitCopy}>
-          <Eyebrow>Try it</Eyebrow>
-          <SectionTitle>See it on your own photos.</SectionTitle>
-          <p className={styles.body}>
-            AutoEdit runs the PhotoEditKit algorithm on iPhone. Pick a photo and swipe through the looks it suggests,
-            ranked for that photo.
-          </p>
+          <Eyebrow>{t.tryIt.eyebrow}</Eyebrow>
+          <SectionTitle>{t.tryIt.title}</SectionTitle>
+          <p className={styles.body}>{t.tryIt.body}</p>
           <div className={styles.row}>
             <ButtonLink href={links.autoEditAppStore} size="lg" external>
-              Try AutoEdit on iOS
+              {t.tryIt.button}
               <ArrowRight />
             </ButtonLink>
           </div>
@@ -114,7 +109,7 @@ export default function HomePage() {
         <div className={styles.tryMedia}>
           <Image
             src="/autoedit-suggestions.webp"
-            alt="AutoEdit on iPhone, showing a lake photo with the Punch look applied and a row of suggested looks below"
+            alt={t.tryIt.imageAlt}
             width={773}
             height={913}
             sizes="(max-width: 719px) calc(100vw - 48px), 420px"
@@ -126,11 +121,10 @@ export default function HomePage() {
       <section id="privacy" className={`container ${styles.section}`}>
         <div className={styles.privacy}>
           <div className={styles.privacyCopy}>
-            <Eyebrow>Private by design</Eyebrow>
-            <SectionTitle>Zero network requests.</SectionTitle>
+            <Eyebrow>{t.privacy.eyebrow}</Eyebrow>
+            <SectionTitle>{t.privacy.title}</SectionTitle>
             <p className={styles.lead} style={{ maxWidth: "none" }}>
-              No remote models to download, no tracking. Safe for app extensions and strict offline requirements.
-              What it learns from a user’s saves stays on their device.
+              {t.privacy.body}
             </p>
           </div>
         </div>
@@ -138,8 +132,8 @@ export default function HomePage() {
 
       <section className={`container ${styles.section} ${styles.last}`}>
         <div className={styles.heading}>
-          <Eyebrow>Install</Eyebrow>
-          <SectionTitle>Two platforms, one set of recipes.</SectionTitle>
+          <Eyebrow>{t.install.eyebrow}</Eyebrow>
+          <SectionTitle>{t.install.title}</SectionTitle>
         </div>
         <div className={styles.grid}>
           <div className={`${cardClass} ${styles.installCard}`}>
@@ -153,7 +147,7 @@ export default function HomePage() {
             </div>
             <InstallSnippet platform="ios" />
             <a href={links.iosQuickStart} className={styles.link}>
-              iOS quick start →
+              {t.install.iosQuickStart}
             </a>
           </div>
           <div className={`${cardClass} ${styles.installCard}`}>
@@ -167,7 +161,7 @@ export default function HomePage() {
             </div>
             <InstallSnippet platform="android" />
             <a href={links.androidQuickStart} className={styles.link}>
-              Android quick start →
+              {t.install.androidQuickStart}
             </a>
           </div>
         </div>

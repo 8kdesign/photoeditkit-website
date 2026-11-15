@@ -1,4 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
+import type { Dictionary } from "@/lib/dictionaries/en";
 import styles from "./ProcessDiagram.module.css";
 
 /** One example run, followed through every step. */
@@ -12,12 +13,6 @@ const run = [
 const threshold = 0.4;
 const kept = run.filter((r) => r.score >= threshold);
 
-const readings = [
-  { label: "Exposure", value: "−0.6 EV" },
-  { label: "Colour cast", value: "Cool" },
-  { label: "Faces", value: "1" },
-  { label: "Scene", value: "Sky" },
-];
 
 function Step({ n, title, text, children }: { n: number; title: string; text: string; children: ReactNode }) {
   return (
@@ -34,15 +29,17 @@ function Step({ n, title, text, children }: { n: number; title: string; text: st
   );
 }
 
-export function ProcessDiagram() {
+export function ProcessDiagram({ t }: { t: Dictionary }) {
+  const [s1, s2, s3, s4, s5] = t.process.steps;
+  const name = (r: { name: string }) => t.recipes[r.name]?.name ?? r.name;
   return (
     <ol className={styles.diagram}>
-      <Step n={1} title="Analyse the photo" text="Reads exposure, colour cast, faces, subject and grain from a small copy.">
+      <Step n={1} title={s1.title} text={s1.text}>
         <div className={styles.photo}>
           <span className={styles.scan} />
         </div>
         <dl className={styles.readings}>
-          {readings.map((r) => (
+          {t.process.readings.map((r) => (
             <div key={r.label}>
               <dt>{r.label}</dt>
               <dd>{r.value}</dd>
@@ -51,11 +48,11 @@ export function ProcessDiagram() {
         </dl>
       </Step>
 
-      <Step n={2} title="Tune every recipe" text="Builds a config for each recipe from that analysis, unique to this photo.">
+      <Step n={2} title={s2.title} text={s2.text}>
         <ul className={styles.list}>
           {run.map((r) => (
             <li key={r.name} className={styles.configRow}>
-              <span className={styles.name}>{r.name}</span>
+              <span className={styles.name}>{name(r)}</span>
               <span className={styles.knobs}>
                 {r.config.map((v, i) => (
                   <span key={i} className={styles.knob} style={{ "--v": v } as CSSProperties} />
@@ -66,11 +63,11 @@ export function ProcessDiagram() {
         </ul>
       </Step>
 
-      <Step n={3} title="Score each one" text="Rates how much each tuned recipe would improve this photo.">
+      <Step n={3} title={s3.title} text={s3.text}>
         <ul className={styles.list}>
           {run.map((r) => (
             <li key={r.name} className={styles.scoreRow}>
-              <span className={styles.name}>{r.name}</span>
+              <span className={styles.name}>{name(r)}</span>
               <span className={styles.bar}>
                 <span style={{ width: `${r.score * 100}%` }} />
               </span>
@@ -80,13 +77,13 @@ export function ProcessDiagram() {
         </ul>
       </Step>
 
-      <Step n={4} title="Drop the weak ones" text="Recipes that score too low are filtered out. A balanced photo may keep none.">
+      <Step n={4} title={s4.title} text={s4.text}>
         <div className={styles.filterWrap} style={{ "--t": threshold } as CSSProperties}>
         <span className={styles.threshold} />
         <ul className={`${styles.list} ${styles.filtered}`}>
           {run.map((r) => (
             <li key={r.name} className={styles.scoreRow} data-out={r.score < threshold ? "" : undefined}>
-              <span className={styles.name}>{r.name}</span>
+              <span className={styles.name}>{name(r)}</span>
               <span className={styles.bar}>
                 <span style={{ width: `${r.score * 100}%` }} />
               </span>
@@ -97,13 +94,13 @@ export function ProcessDiagram() {
         </div>
       </Step>
 
-      <Step n={5} title="Suggest the edits" text="Returns the survivors ranked, ready to show in a picker or apply.">
+      <Step n={5} title={s5.title} text={s5.text}>
         <ul className={styles.list}>
           {kept.map((r, i) => (
             <li key={r.name} className={styles.rankRow} data-top={i === 0 ? "" : undefined}>
               <span className={styles.rank}>{i + 1}</span>
               <span className={styles.thumb} data-look={r.name} />
-              <span className={styles.name}>{r.name}</span>
+              <span className={styles.name}>{name(r)}</span>
             </li>
           ))}
         </ul>

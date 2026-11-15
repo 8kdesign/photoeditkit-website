@@ -3,16 +3,21 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { localePath, splitLocalePath } from "@/lib/i18n";
+import { LanguageMenu } from "./LanguageMenu";
+import { useI18n } from "./I18nProvider";
 import { Wordmark } from "./SunMark";
 import styles from "./SiteHeader.module.css";
 
-const nav = [
-  { label: "Overview", href: "/" },
-  { label: "Recipes", href: "/recipes" },
-];
-
 export function SiteHeader() {
   const pathname = usePathname();
+  const { locale, t } = useI18n();
+  // The page path without its language prefix, so the switcher can link to the same page.
+  const [, pagePath] = splitLocalePath(pathname);
+  const nav = [
+    { label: t.nav.overview, path: "/" },
+    { label: t.nav.recipes, path: "/recipes" },
+  ];
   const [open, setOpen] = useState(false);
 
   // Close the mobile menu after navigating.
@@ -32,9 +37,9 @@ export function SiteHeader() {
 
   const links = nav.map((item) => (
     <Link
-      key={item.href}
-      href={item.href}
-      aria-current={pathname === item.href ? "page" : undefined}
+      key={item.path}
+      href={localePath(locale, item.path)}
+      aria-current={pagePath === item.path ? "page" : undefined}
       onClick={() => setOpen(false)}
     >
       {item.label}
@@ -44,16 +49,18 @@ export function SiteHeader() {
   return (
     <header className={styles.header}>
       <div className={`container ${styles.inner}`}>
-        <Link href="/" className={styles.brand} aria-label="PhotoEditKit home">
+        <Link href={localePath(locale, "/")} className={styles.brand} aria-label={t.nav.homeLabel}>
           <Wordmark />
         </Link>
-        <nav aria-label="Main" className={styles.nav}>
+        <nav aria-label={t.nav.mainLabel} className={styles.nav}>
           {links}
         </nav>
+        <div className={styles.end}>
+          <LanguageMenu locale={locale} pagePath={pagePath} label={t.nav.language} />
         <button
           type="button"
           className={styles.menuButton}
-          aria-label={open ? "Close menu" : "Open menu"}
+          aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
           aria-expanded={open}
           aria-controls="mobile-nav"
           onClick={() => setOpen((v) => !v)}
@@ -66,10 +73,11 @@ export function SiteHeader() {
             )}
           </svg>
         </button>
+        </div>
       </div>
       <nav
         id="mobile-nav"
-        aria-label="Main"
+        aria-label={t.nav.mainLabel}
         className={styles.mobileNav}
         data-open={open ? "true" : undefined}
         hidden={!open}

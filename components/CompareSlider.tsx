@@ -1,14 +1,16 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
+import { fmt } from "@/lib/i18n";
 import { ExampleImage } from "./ExampleImage";
+import { useI18n } from "./I18nProvider";
 import styles from "./CompareSlider.module.css";
 
 type Props = {
   before: string;
   after: string;
   alt: string;
-  /** Right-hand label, e.g. "AI edit" or a recipe name. */
+  /** Right-hand label, e.g. a recipe name. Defaults to the dictionary's "AI edit". */
   afterLabel?: string;
   aspectRatio?: string;
   size?: "md" | "sm";
@@ -30,7 +32,7 @@ export function CompareSlider({
   before,
   after,
   alt,
-  afterLabel = "AI edit",
+  afterLabel: afterLabelProp,
   aspectRatio = "5 / 4",
   size = "md",
   elevated = false,
@@ -39,6 +41,8 @@ export function CompareSlider({
   sizes = HERO_SIZES,
   flush = false,
 }: Props) {
+  const { t } = useI18n();
+  const afterLabel = afterLabelProp ?? t.hero.afterLabel;
   const frameRef = useRef<HTMLDivElement>(null);
   const dragging = useRef(false);
   const [pos, setPos] = useState(introGlide ? 80 : 50);
@@ -103,11 +107,11 @@ export function CompareSlider({
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
     >
-      <ExampleImage src={before} alt={`${alt}, original`} sizes={sizes} className={styles.img} preload={priority} draggable={false} />
+      <ExampleImage src={before} alt={fmt(t.slider.beforeAlt, { alt })} sizes={sizes} className={styles.img} preload={priority} draggable={false} />
       <div className={styles.after} style={{ clipPath: `inset(0 0 0 ${pos}%)` }}>
-        <ExampleImage src={after} alt={`${alt}, ${afterLabel}`} sizes={sizes} className={styles.img} preload={priority} draggable={false} />
+        <ExampleImage src={after} alt={fmt(t.slider.afterAlt, { alt, label: afterLabel })} sizes={sizes} className={styles.img} preload={priority} draggable={false} />
       </div>
-      <span className={`${styles.tag} ${styles.before}`}>Original</span>
+      <span className={`${styles.tag} ${styles.before}`}>{t.slider.original}</span>
       <span className={`${styles.tag} ${styles.afterTag}`}>{afterLabel}</span>
       <div className={styles.divider} style={{ left: `${pos}%` }} />
       <button
@@ -115,7 +119,7 @@ export function CompareSlider({
         role="slider"
         className={styles.handle}
         style={{ left: `${pos}%` }}
-        aria-label={`Compare original and ${afterLabel}`}
+        aria-label={fmt(t.slider.compare, { label: afterLabel })}
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={Math.round(pos)}

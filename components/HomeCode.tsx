@@ -1,12 +1,13 @@
 "use client";
 
 import { CodeTabs, K, S, C, F } from "./CodeTabs";
+import { useI18n } from "./I18nProvider";
 
-const swiftText = `// Off the main thread: this measures the photo.
+const swiftText = (measure: string, keep: string) => `${measure}
 if let config = AIPostProcessingHelper.topSuggestion(for: small, metadata: properties) {
     let edited = original.applyingEditConfig(config)
 } else {
-    // The photo is already good. Keep it as it is.
+    ${keep}
 }`;
 
 const kotlinText = `val result = PhotoEditKit.suggestions(context, bitmap, exif)
@@ -15,15 +16,16 @@ result.suggestions.firstOrNull()?.let { best ->
 }`;
 
 export function HomeCode() {
+  const { t } = useI18n();
   return (
     <CodeTabs
       samples={[
         {
           label: "Swift",
-          text: swiftText,
+          text: swiftText(t.code.swiftMeasureComment, t.code.swiftKeepComment),
           code: (
             <>
-              <C>{"// Off the main thread: this measures the photo."}</C>
+              <C>{t.code.swiftMeasureComment}</C>
               {"\n"}
               <K>if let</K> config = AIPostProcessingHelper.<F>topSuggestion</F>(for: small, metadata: properties) {"{"}
               {"\n    "}
@@ -31,7 +33,7 @@ export function HomeCode() {
               {"\n} "}
               <K>else</K> {"{"}
               {"\n    "}
-              <C>{"// The photo is already good. Keep it as it is."}</C>
+              <C>{t.code.swiftKeepComment}</C>
               {"\n}"}
             </>
           ),
@@ -55,6 +57,7 @@ export function HomeCode() {
 }
 
 export function InstallSnippet({ platform }: { platform: "ios" | "android" }) {
+  const { t } = useI18n();
   const style = {
     margin: 0,
     padding: "16px 20px",
@@ -66,13 +69,13 @@ export function InstallSnippet({ platform }: { platform: "ios" | "android" }) {
     overflowX: "auto" as const,
   };
   return platform === "ios" ? (
-    <pre style={style} tabIndex={0} aria-label="Install snippet">
+    <pre style={style} tabIndex={0} aria-label={t.code.installLabel}>
       <code>
         .package(url: <S>{'"https://github.com/8kdesign/PhotoEditKit"'}</S>, from: <S>{'"1.0.0"'}</S>)
       </code>
     </pre>
   ) : (
-    <pre style={style} tabIndex={0} aria-label="Install snippet">
+    <pre style={style} tabIndex={0} aria-label={t.code.installLabel}>
       <code>
         implementation(<S>{'"com.logicui:photoeditkit:1.0.1"'}</S>)
       </code>
