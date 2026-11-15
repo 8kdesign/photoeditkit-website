@@ -73,18 +73,18 @@ export const recipes: Recipe[] = [
   { name: "Punch", kind: "style", sample: "burger", description: "Stronger contrast with a moderate colour boost. Keeps the photo’s warmth." },
   { name: "Pop", kind: "style", sample: "juice", description: "Brighter and punchier at once, for a light-coloured subject in a dim room." },
   { name: "Vivid", kind: "style", sample: "valley", description: "Richer colour led by what the photo is about. Skin and strong colours stay nearly as they were." },
-  { name: "Muted", kind: "style", sample: "bakery", description: "Quieter colour overall, while the main subject keeps its own." },
-  { name: "Matte", kind: "style", sample: "skyline", description: "A faded film-print look: softened blacks, gentler colour and a light vignette." },
-  { name: "Soft", kind: "style", sample: "window", description: "A gentle, warm finish with low contrast." },
+  { name: "Muted", kind: "style", sample: "bakery", description: "Quieter colour overall, while the main subject keeps its own. Takes out more colour the more colourful the photo is." },
+  { name: "Soft", kind: "style", sample: "window", description: "A gentle finish: low contrast and open shadows. Leaves colour alone." },
   { name: "Spotlight", kind: "style", sample: "smoothie", description: "Darkens the edges to draw the eye to the middle. Leaves colour alone." },
   { name: "Manga", kind: "theme", sample: "hotel", note: "On request", description: "A hand-painted anime look with open shadows and clean greens. Daylight city, nature and sky only." },
   { name: "B&W", kind: "theme", sample: "bronze", note: "On request", description: "Black and white, with contrast, highlights and shadows set for the photo." },
   { name: "Film", kind: "theme", sample: "villa", note: "On request", description: "A colour-negative print: muted colour, olive greens, teal blues and rolled-off highlights." },
+  { name: "Matte", kind: "theme", sample: "skyline", note: "On request", description: "A faded print: softened blacks, gentler colour and a light vignette. Fades more on a contrasty photo, less on a flat one." },
 ];
 
 /** Recipe names shown on the home page; Original is RAW-only and left off the overview. */
 export const homeRecipeGroups: Record<RecipeKind, string[]> = {
   correction: ["Brighten", "Deepen", "Lift Shadows", "Recover Highlights", "Warm Up", "Cool Down", "True Color", "Clean Up"],
-  style: ["Crisp", "Punch", "Pop", "Vivid", "Muted", "Matte", "Soft", "Spotlight"],
-  theme: ["Manga", "B&W", "Film"],
+  style: ["Crisp", "Punch", "Pop", "Vivid", "Muted", "Soft", "Spotlight"],
+  theme: ["Manga", "B&W", "Film", "Matte"],
 };
