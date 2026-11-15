@@ -1,0 +1,125 @@
+.frame {
+  position: relative;
+  overflow: hidden;
+  background: var(--mat);
+  border-radius: var(--radius-xl);
+  user-select: none;
+  touch-action: pan-y;
+  cursor: ew-resize;
+  -webkit-user-drag: none;
+}
+
+.frame[data-size="md"] {
+  max-height: 72vh;
+  width: 100%;
+}
+
+.frame[data-size="sm"] {
+  border-radius: var(--radius-lg);
+}
+
+.frame[data-elevated="true"] {
+  box-shadow: var(--shadow-media), 0 0 0 1px var(--line);
+}
+
+.img {
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.after {
+  position: absolute;
+  inset: 0;
+}
+
+.glide .after,
+.glide .divider,
+.glide .handle {
+  transition: clip-path 600ms var(--ease-out), left 600ms var(--ease-out);
+}
+
+.divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--on-photo);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+}
+
+.handle {
+  position: absolute;
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  border-radius: var(--radius-pill);
+  background: var(--on-photo);
+  color: #111416;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  border: 0;
+  padding: 0;
+  cursor: ew-resize;
+}
+
+.handle svg {
+  width: 20px;
+  height: 20px;
+}
+
+.tag {
+  position: absolute;
+  top: var(--space-4);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--scrim);
+  color: var(--on-photo);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+}
+
+.before {
+  left: var(--space-4);
+}
+
+.afterTag {
+  right: var(--space-4);
+}
+
+.frame[data-size="sm"] .tag {
+  top: 10px;
+  padding: 4px 8px;
+  font-size: 10px;
+}
+
+.frame[data-size="sm"] .before {
+  left: 10px;
+}
+
+.frame[data-size="sm"] .afterTag {
+  right: 10px;
+}
+
+.frame[data-size="sm"] .handle {
+  width: 32px;
+  height: 32px;
+  margin: -16px 0 0 -16px;
+}
+
+.frame[data-size="sm"] .handle svg {
+  width: 16px;
+  height: 16px;
+}
