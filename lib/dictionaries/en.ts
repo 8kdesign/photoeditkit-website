@@ -136,6 +136,7 @@ export const en = {
 
   /** Platform names on buttons, card titles and badges. */
   platforms: {
+    apple: "iOS & macOS",
     android: "Android",
   },
 

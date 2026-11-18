@@ -149,6 +149,7 @@ export const zhHans: Dictionary = {
   },
 
   platforms: {
+    apple: 'iOS与macOS',
     android: '安卓',
   },
 

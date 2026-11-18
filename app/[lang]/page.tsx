@@ -32,7 +32,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
           <div className={styles.row}>
             <ButtonLink href={links.iosRepo} size="lg" variant="secondary" external>
               <GitHubIcon />
-              iOS &amp; macOS
+              {t.platforms.apple}
             </ButtonLink>
             <ButtonLink href={links.androidRepo} size="lg" variant="secondary" external>
               <GitHubIcon />
@@ -138,7 +138,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
         <div className={styles.grid}>
           <div className={`${cardClass} ${styles.installCard}`}>
             <div className={styles.installHead}>
-              <h3 className={styles.cardTitle}>iOS &amp; macOS</h3>
+              <h3 className={styles.cardTitle}>{t.platforms.apple}</h3>
               <div className={styles.badges}>
                 <Badge>SPM</Badge>
                 <Badge>iOS 17.6+</Badge>
