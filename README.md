@@ -35,6 +35,6 @@ When you have before/after pairs, add a `sample` slug to each recipe in `lib/con
 
 ## Deploying
 
-The site address is `https://www.gongxifac.ai` (`lib/site.ts`). It drives canonical links, Open Graph URLs,
+The site address is `https://www.photoeditkit.org` (`lib/site.ts`). It drives canonical links, Open Graph URLs,
 `/sitemap.xml` and `/robots.txt`. Set `NEXT_PUBLIC_SITE_URL` before `npm run build` to override it, e.g. for staging.
 The social preview image is generated from `app/opengraph-image.tsx`.

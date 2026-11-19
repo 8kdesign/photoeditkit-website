@@ -2,7 +2,7 @@
  * Canonical site address, used for canonical links, Open Graph URLs, the sitemap and robots.txt.
  * Defaults to the production domain; set NEXT_PUBLIC_SITE_URL to override it (e.g. for a staging deploy).
  */
-const productionUrl = "https://www.gongxifac.ai";
+const productionUrl = "https://www.photoeditkit.org";
 
 export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? productionUrl).replace(/\/+$/, "");
 
