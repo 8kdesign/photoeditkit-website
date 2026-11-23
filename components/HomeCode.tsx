@@ -1,6 +1,7 @@
 "use client";
 
 import { CodeTabs, K, S, C, F } from "./CodeTabs";
+import { versions } from "@/lib/content";
 import { useI18n } from "./I18nProvider";
 
 const swiftText = (measure: string, keep: string) => `${measure}
@@ -71,13 +72,13 @@ export function InstallSnippet({ platform }: { platform: "ios" | "android" }) {
   return platform === "ios" ? (
     <pre style={style} tabIndex={0} aria-label={t.code.installLabel}>
       <code>
-        .package(url: <S>{'"https://github.com/8kdesign/PhotoEditKit"'}</S>, from: <S>{'"1.0.0"'}</S>)
+        .package(url: <S>{'"https://github.com/8kdesign/PhotoEditKit"'}</S>, from: <S>{`"${versions.ios}"`}</S>)
       </code>
     </pre>
   ) : (
     <pre style={style} tabIndex={0} aria-label={t.code.installLabel}>
       <code>
-        implementation(<S>{'"com.logicui:photoeditkit:1.0.1"'}</S>)
+        implementation(<S>{`"com.logicui:photoeditkit:${versions.android}"`}</S>)
       </code>
     </pre>
   );

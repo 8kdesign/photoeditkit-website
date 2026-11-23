@@ -4,6 +4,7 @@ import { RecipeBrowser } from "@/components/RecipeBrowser";
 import { Eyebrow } from "@/components/ui";
 import { getDictionary } from "@/lib/dictionaries";
 import { hasLocale, pageAlternates } from "@/lib/i18n";
+import { JsonLd, breadcrumbs, graph } from "@/lib/structured-data";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/recipes">): Promise<Metadata> {
   const { lang } = await params;
@@ -25,6 +26,14 @@ export default async function RecipesPage({ params }: PageProps<"/[lang]/recipes
       className="container page-top"
       style={{ paddingBottom: 96, display: "flex", flexDirection: "column", gap: 40 }}
     >
+      <JsonLd
+        data={graph(
+          breadcrumbs(lang, [
+            { name: t.nav.overview, path: "/" },
+            { name: t.nav.recipes, path: "/recipes" },
+          ]),
+        )}
+      />
       <RecipeBrowser
         intro={
           <>

@@ -17,6 +17,7 @@ export const en = {
 
   nav: {
     overview: "Overview",
+    gettingStarted: "Get started",
     recipes: "Recipes",
     homeLabel: "PhotoEditKit home",
     mainLabel: "Main",
@@ -138,6 +139,56 @@ export const en = {
   platforms: {
     apple: "iOS & macOS",
     android: "Android",
+  },
+
+  gettingStarted: {
+    metaTitle: "Get started: auto photo editing for iOS & Android",
+    metaDescription:
+      "Install PhotoEditKit with Swift Package Manager or Gradle, then let on-device AI edit a photo in a few lines of Swift or Kotlin. Free, including in commercial apps.",
+    breadcrumb: "Getting started",
+    eyebrow: "Getting started",
+    title: "Add auto photo editing to your app.",
+    intro:
+      "Install the library, pass in a photo, and get back the edit it needs. Everything runs on the device: no account, no API key, no network request.",
+    jumpLabel: "Choose a platform",
+    requirementsLabel: "Requirements",
+    guideLink: "Full {platform} guide on GitHub",
+    stepLabel: "Step {n}",
+    ios: {
+      requirements: ["iOS 17.6+", "macOS 15+", "Swift Package Manager"],
+      installTitle: "Install with Swift Package Manager",
+      installBody:
+        "In Xcode, choose <code>File → Add Package Dependencies…</code>, enter <code>https://github.com/8kdesign/PhotoEditKit</code> and add the PhotoEditKit library to your app target. Or declare it in your own <code>Package.swift</code>:",
+      editTitle: "Let the AI edit a photo",
+      editBody:
+        "Give the AI a small upright copy (512 px is plenty) and the photo's ImageIO properties. You get back an <code>EditConfig</code> to render on the full-size photo, or <code>nil</code> when the photo is already good. Run it off the main thread.",
+      metadataNote:
+        "Pass the properties from the original file. The EXIF exposure lets the AI tell a night street from an underexposed shot, so dark-on-purpose photos aren't brightened.",
+      pickerTitle: "Show a picker of suggestions",
+      pickerBody:
+        "Want people to choose? Ask for up to ten ranked suggestions, each with a title, an <code>EditConfig</code> and a ready-made thumbnail. Pass the full-size photo so grain can be measured.",
+      macNote: "On macOS the API is the same: use <code>NSImage</code> wherever the examples use <code>UIImage</code>.",
+      guideTitle: "Read the full guide",
+      guideBody:
+        "The README covers the rest: building an editor with <code>EditController</code>, HDR export, Live Photos, video editing and every setting.",
+    },
+    android: {
+      requirements: ["Android 10+", "arm64-v8a", "compileSdk 36", "Kotlin 2.2+"],
+      repoTitle: "Add the Maven repository",
+      repoBody: "PhotoEditKit is published in a Maven repository hosted on GitHub. Add it in <code>settings.gradle.kts</code>:",
+      dependencyTitle: "Add the dependency",
+      dependencyBody:
+        "Then add the library to your app module's <code>build.gradle.kts</code>. The AI engine is built for 64-bit ARM only, so limit your app to <code>arm64-v8a</code>:",
+      editTitle: "Let the AI edit a photo",
+      editBody:
+        "Decode the photo upright with <code>ImageDecoder</code> and pass its <code>ExifInterface</code>. <code>suggestions</code> is a suspend function that runs in the background. Render the best one with <code>renderedEdit</code>, off the main thread.",
+      pickerTitle: "Show a picker of suggestions",
+      pickerBody:
+        "Each suggestion has a title in the device's language, an <code>EditConfig</code> and a 240 px thumbnail, ready for a picker. A well-balanced photo can return none.",
+      guideTitle: "Read the full guide",
+      guideBody:
+        "The README covers the rest: previews with <code>EditPreviewView</code>, Ultra HDR, Motion Photos, video editing and every setting.",
+    },
   },
 
   recipesPage: {

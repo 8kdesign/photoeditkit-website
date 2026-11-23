@@ -16,6 +16,7 @@ export function SiteHeader() {
   const [, pagePath] = splitLocalePath(pathname);
   const nav = [
     { label: t.nav.overview, path: "/" },
+    { label: t.nav.gettingStarted, path: "/getting-started" },
     { label: t.nav.recipes, path: "/recipes" },
   ];
   const [open, setOpen] = useState(false);

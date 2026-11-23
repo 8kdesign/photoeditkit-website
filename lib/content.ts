@@ -1,10 +1,14 @@
+/** Latest released versions, shown in install snippets. Update after each release. */
+export const versions = {
+  ios: "1.2.7",
+  android: "1.2.7",
+};
+
 export const links = {
   iosRepo: "https://github.com/8kdesign/PhotoEditKit",
   androidRepo: "https://github.com/8kdesign/PhotoEditKit-Android",
-  iosQuickStart:
-    "https://github.com/8kdesign/PhotoEditKit#quick-start-let-the-ai-edit-a-photo",
-  androidQuickStart:
-    "https://github.com/8kdesign/PhotoEditKit-Android#quick-start-let-the-ai-edit-a-photo",
+  iosReadme: "https://github.com/8kdesign/PhotoEditKit#contents",
+  androidReadme: "https://github.com/8kdesign/PhotoEditKit-Android#contents",
   recipesApi: "https://github.com/8kdesign/PhotoEditKit#the-recipes",
   autoEditAppStore: "https://apps.apple.com/sg/app/autoedit-smart-photo-editor/id6818664461",
 };

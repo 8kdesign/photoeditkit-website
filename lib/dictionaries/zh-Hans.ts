@@ -18,6 +18,7 @@ export const zhHans: Dictionary = {
 
   nav: {
     overview: '概览',
+    gettingStarted: '快速上手',
     recipes: '配方',
     homeLabel: 'PhotoEditKit 首页',
     mainLabel: '主导航',
@@ -151,6 +152,53 @@ export const zhHans: Dictionary = {
   platforms: {
     apple: 'iOS与macOS',
     android: '安卓',
+  },
+
+  gettingStarted: {
+    metaTitle: '快速上手：iOS 与安卓自动修图',
+    metaDescription:
+      '通过 Swift Package Manager 或 Gradle 安装 PhotoEditKit，几行 Swift 或 Kotlin 代码即可让端侧 AI 修好一张照片。免费使用，包括商业应用。',
+    breadcrumb: '快速上手',
+    eyebrow: '快速上手',
+    title: '为您的应用加入自动修图',
+    intro: '安装库，传入照片，即可得到它需要的修图。全部在设备端完成：无需账号、无需 API 密钥、没有网络请求。',
+    jumpLabel: '选择平台',
+    requirementsLabel: '系统要求',
+    guideLink: 'GitHub 上的完整{platform}指南',
+    stepLabel: '第 {n} 步',
+    ios: {
+      requirements: ['iOS 17.6+', 'macOS 15+', 'Swift Package Manager'],
+      installTitle: '用 Swift Package Manager 安装',
+      installBody:
+        '在 Xcode 中选择 <code>File → Add Package Dependencies…</code>，输入 <code>https://github.com/8kdesign/PhotoEditKit</code>，并将 PhotoEditKit 库添加到应用目标。也可以在自己的 <code>Package.swift</code> 中声明：',
+      editTitle: '让 AI 修一张照片',
+      editBody:
+        '传给 AI 一张方向正确的小图（512 像素足够）以及照片的 ImageIO 属性。您会得到一个 <code>EditConfig</code>，用于渲染原尺寸照片；如果照片已经很好，则返回 <code>nil</code>。请在主线程以外运行。',
+      metadataNote: '请传入原始文件的属性。借助 EXIF 曝光信息，AI 能分辨夜景街道和曝光不足的照片，不会把有意拍暗的照片调亮。',
+      pickerTitle: '展示修图建议选择器',
+      pickerBody:
+        '想让用户自己选？最多可获取十条排好序的建议，每条都有标题、<code>EditConfig</code> 和现成的缩略图。请传入原尺寸照片，以便测量噪点。',
+      macNote: '在 macOS 上 API 完全相同：示例中使用 <code>UIImage</code> 的地方改用 <code>NSImage</code> 即可。',
+      guideTitle: '阅读完整指南',
+      guideBody:
+        'README 涵盖其余内容：用 <code>EditController</code> 构建编辑器、HDR 导出、实况照片、视频编辑以及所有设置。',
+    },
+    android: {
+      requirements: ['Android 10+', 'arm64-v8a', 'compileSdk 36', 'Kotlin 2.2+'],
+      repoTitle: '添加 Maven 仓库',
+      repoBody: 'PhotoEditKit 发布在托管于 GitHub 的 Maven 仓库中。请在 <code>settings.gradle.kts</code> 中添加：',
+      dependencyTitle: '添加依赖',
+      dependencyBody:
+        '然后在应用模块的 <code>build.gradle.kts</code> 中添加该库。AI 引擎仅支持 64 位 ARM，因此请将应用限定为 <code>arm64-v8a</code>：',
+      editTitle: '让 AI 修一张照片',
+      editBody:
+        '用 <code>ImageDecoder</code> 解码出方向正确的照片，并传入它的 <code>ExifInterface</code>。<code>suggestions</code> 是在后台运行的挂起函数。在主线程以外用 <code>renderedEdit</code> 渲染最佳建议。',
+      pickerTitle: '展示修图建议选择器',
+      pickerBody: '每条建议都带有设备语言的标题、<code>EditConfig</code> 和 240 像素的缩略图，可直接用于选择器。构图均衡的照片可能不会返回任何建议。',
+      guideTitle: '阅读完整指南',
+      guideBody:
+        'README 涵盖其余内容：用 <code>EditPreviewView</code> 预览、Ultra HDR、动态照片、视频编辑以及所有设置。',
+    },
   },
 
   recipesPage: {

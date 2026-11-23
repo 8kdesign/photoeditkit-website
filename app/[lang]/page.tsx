@@ -9,6 +9,7 @@ import { homeRecipeGroups, links, type RecipeKind } from "@/lib/content";
 import { getDictionary } from "@/lib/dictionaries";
 import { hasLocale, localePath } from "@/lib/i18n";
 import { rich } from "@/lib/rich";
+import { JsonLd, homeGraph } from "@/lib/structured-data";
 import styles from "./page.module.css";
 
 const kindDot: Record<RecipeKind, string> = {
@@ -24,6 +25,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
 
   return (
     <main>
+      <JsonLd data={homeGraph(lang, t.meta.description)} />
       <section className={`container ${styles.hero}`}>
         <div className={styles.heroCopy}>
           <Eyebrow>{t.hero.eyebrow}</Eyebrow>
@@ -146,9 +148,9 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
               </div>
             </div>
             <InstallSnippet platform="ios" />
-            <a href={links.iosQuickStart} className={styles.link}>
+            <Link href={localePath(lang, "/getting-started#ios")} className={styles.link}>
               {t.install.iosQuickStart}
-            </a>
+            </Link>
           </div>
           <div className={`${cardClass} ${styles.installCard}`}>
             <div className={styles.installHead}>
@@ -160,9 +162,9 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
               </div>
             </div>
             <InstallSnippet platform="android" />
-            <a href={links.androidQuickStart} className={styles.link}>
+            <Link href={localePath(lang, "/getting-started#android")} className={styles.link}>
               {t.install.androidQuickStart}
-            </a>
+            </Link>
           </div>
         </div>
       </section>
