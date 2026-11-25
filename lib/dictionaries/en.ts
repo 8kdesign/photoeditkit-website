@@ -232,6 +232,7 @@ export const en = {
     "B&W": { name: "B&W", description: "Black and white, with contrast, highlights and shadows set for the photo." },
     Film: { name: "Film", description: "A colour-negative print: muted colour, olive greens, teal blues and rolled-off highlights." },
     Matte: { name: "Matte", description: "A faded print: softened blacks, gentler colour and a light vignette. Fades more on a contrasty photo, less on a flat one." },
+    Digicam: { name: "Digicam", description: "An early-2000s point-and-shoot: bright, with highlights clipped hard to white, greyish blacks, a cool blue cast, thin colour, low-resolution softness and colour noise." },
   } as Record<string, { name: string; description: string }>,
 };
 

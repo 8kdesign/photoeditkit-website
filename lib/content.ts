@@ -60,11 +60,12 @@ export const recipes: Recipe[] = [
   { name: "B&W", kind: "theme", sample: "bronze" },
   { name: "Film", kind: "theme", sample: "villa" },
   { name: "Matte", kind: "theme", sample: "skyline" },
+  { name: "Digicam", kind: "theme", sample: "gondola" },
 ];
 
 /** Recipe names shown on the home page; Original is RAW-only and left off the overview. */
 export const homeRecipeGroups: Record<RecipeKind, string[]> = {
   correction: ["Brighten", "Deepen", "Lift Shadows", "Recover Highlights", "Warm Up", "Cool Down", "True Color", "Clean Up"],
   style: ["Crisp", "Punch", "Pop", "Vivid", "Muted", "Soft", "Spotlight"],
-  theme: ["Manga", "B&W", "Film", "Matte"],
+  theme: ["Manga", "B&W", "Film", "Matte", "Digicam"],
 };

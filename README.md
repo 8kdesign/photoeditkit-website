@@ -18,7 +18,7 @@ npm run build && npm start
 | --- | --- |
 | `/` | `app/page.tsx` — hero with before/after slider, one-call code, features, recipe groups, privacy, install |
 | `/getting-started` | `app/[lang]/getting-started/page.tsx` — install and first-edit steps for iOS/macOS and Android; versions from `versions` in `lib/content.ts` |
-| `/recipes` | `app/recipes/page.tsx` — all 21 recipes, filterable, each with a sample placeholder |
+| `/recipes` | `app/recipes/page.tsx` — all 20 recipes, filterable, each with a sample placeholder |
 
 ## Where things live
 
