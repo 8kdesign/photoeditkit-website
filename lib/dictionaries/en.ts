@@ -26,8 +26,117 @@ export const en = {
     language: "Language",
   },
 
+  privacyPage: {
+    eyebrow: "Privacy",
+    title: "Privacy Policy",
+    description: "PhotoEditKit processes and edits photos strictly on-device. LogicUI doesn't collect, store, sell or share personal information through this website or the PhotoEditKit libraries.",
+    updated: "Last updated: November 27, 2026",
+    intro: "PhotoEditKit is engineered to process and edit photos strictly on-device without sending data to external servers. This privacy policy covers this website and the PhotoEditKit libraries for iOS, macOS, and Android, created by **LogicUI**.",
+    sections: [
+      {
+        title: "Summary",
+        blocks: [
+          { text: "LogicUI does not collect, store, sell, or share personal information through this website or the PhotoEditKit libraries. Your photos, videos, and associated metadata are never uploaded to our servers. This policy outlines the few technical instances where minimal data remains stored locally on your device or is managed by essential infrastructure providers." },
+        ],
+      },
+      {
+        title: "1. This Website",
+        blocks: [
+          { text: "This website is built with a zero-tracking architecture:" },
+          {
+            items: [
+              { label: "No Tracking or Cookies", text: "We do not use user accounts, forms, analytics, advertising networks, tracking scripts, cookies, or browser storage (e.g., `localStorage`)." },
+              { label: "Self-Hosted Assets", text: "All fonts and images are served directly from this site's own domain. No requests are made to third-party CDNs." },
+              { label: "No Persistent State", text: "Selecting a language (e.g., `/zh-Hans`) changes only the URL and is not saved across sessions." },
+              { label: "Server Logs", text: "Like most web services, our web host processes temporary standard HTTP request logs (e.g., IP address, browser user-agent, requested URL, timestamp) solely to deliver the site and maintain network security. These logs are not used to track, profile, or identify visitors, nor are they cross-referenced with external data." },
+            ],
+          },
+        ],
+      },
+      {
+        title: "2. The PhotoEditKit Libraries (SDK)",
+        blocks: [
+          { text: "PhotoEditKit libraries operate entirely offline and perform zero network activity." },
+          {
+            items: [
+              { label: "No External Communication", text: "The libraries do not make network calls, download remote assets or models at runtime, or contain code for telemetry, crash reporting, tracking, or advertising." },
+              { label: "On-Device Processing", text: "Photos, videos, and metadata (e.g., exposure, ISO) are analyzed and rendered strictly on the device." },
+              { label: "App Permissions", text: "The SDK does not request system permissions directly. Host applications integrating PhotoEditKit manage their own permission prompts (e.g., Photos library or Camera access)." },
+            ],
+          },
+          { heading: "Local Preferences & Machine Learning Records" },
+          { text: "To provide personalized editing suggestions, PhotoEditKit learns locally from the edits a user saves:" },
+          {
+            items: [
+              { label: "Numeric Fingerprints", text: "Each saved edit creates a minimal local record containing a numeric fingerprint of the photo (descriptors of its light and color, **never the photo itself**), a timestamp, the presets offered, the preset selected, and how far each slider was moved." },
+              { label: "User Style Parameters", text: "On iOS and macOS, the conversational editor stores one number per setting, representing how strong the user prefers its adjustments." },
+              { label: "Retention & Storage", text: "Records are stored exclusively inside the host app's private storage on the device. Only recent saves are kept and older records are dropped on a rolling basis. Records are protected by the device's app sandboxing and encryption, and are permanently erased when the app is uninstalled." },
+            ],
+          },
+          { heading: "On-Device AI Models" },
+          { text: "On Apple devices with Apple Intelligence, the conversational editor uses Apple's on-device language model through the Foundation Models framework. All prompt processing occurs locally on the device." },
+        ],
+      },
+      {
+        title: "3. Applications Built with PhotoEditKit",
+        blocks: [
+          { text: "Developers integrating PhotoEditKit control their own application architecture and data collection practices." },
+          {
+            items: [
+              { label: "Developer Responsibility", text: "End users should review the individual privacy policies of third-party applications using PhotoEditKit." },
+              { label: "Zero Telemetry to LogicUI", text: "LogicUI receives no telemetry, crash logs, device identifiers, or media files from third-party applications using our SDK. Developers can accurately report \"Data Not Collected\" for PhotoEditKit in the App Store's App Privacy Details." },
+              { label: "AutoEdit", text: "Our first-party iOS app built on PhotoEditKit maintains [its own separate Privacy Policy](https://www.logicui.com/autoedit/privacy)." },
+            ],
+          },
+        ],
+      },
+      {
+        title: "4. Third-Party Services & Dependencies",
+        blocks: [
+          { text: "When accessing external resources linked from this site:" },
+          {
+            items: [
+              { label: "GitHub", text: "Source code repositories, documentation, and issue tracking are hosted on GitHub. Downloads via Swift Package Manager, Gradle, or direct clone are governed by [GitHub's Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement)." },
+              { label: "App Store", text: "Links to Apple's App Store lead to a platform governed by Apple's own privacy terms." },
+            ],
+          },
+        ],
+      },
+      {
+        title: "5. Data Retention, Security, and Rights",
+        blocks: [
+          {
+            items: [
+              { label: "Data Subject Rights (GDPR / CCPA / CPRA)", text: "Because LogicUI does not collect, store, or process personal data, we do not hold personal data files to access, modify, transfer, or erase. The only personal data involved is the web host's temporary request logs described above." },
+              { label: "Local Data Control", text: "Users can clear local PhotoEditKit learning records by using the host app's in-app reset settings (if provided) or by deleting the app." },
+            ],
+          },
+        ],
+      },
+      {
+        title: "6. Children's Privacy",
+        blocks: [
+          { text: "This website and the PhotoEditKit developer tools are intended for developers and a general audience. We do not knowingly collect personal information from children. Third-party applications integrating the SDK are governed by their respective developers' policies regarding compliance with COPPA and global child privacy laws." },
+        ],
+      },
+      {
+        title: "7. Changes to This Policy",
+        blocks: [
+          { text: "We may periodically update this policy to reflect changes in our libraries or website. Any updates will be published to this page with a revised \"Last updated\" date." },
+        ],
+      },
+      {
+        title: "8. Contact Us",
+        blocks: [
+          { text: "If you have questions regarding this privacy policy or PhotoEditKit's privacy architecture, please contact us:" },
+          { items: [{ label: "Public Queries / Technical Discussions", text: "Open an issue on our [GitHub repository](https://github.com/8kdesign/PhotoEditKit/issues)." }] },
+        ],
+      },
+    ],
+  },
+
   footer: {
-    by: "by LogicUI",
+    privacy: "Privacy policy",
   },
 
   slider: {

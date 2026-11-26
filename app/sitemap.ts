@@ -6,6 +6,7 @@ const pages = [
   { path: "/", priority: 1 },
   { path: "/getting-started", priority: 0.9 },
   { path: "/recipes", priority: 0.8 },
+  { path: "/privacy", priority: 0.3 },
 ];
 
 /** Every page in every language, each listing its translations so search engines pair them. */
