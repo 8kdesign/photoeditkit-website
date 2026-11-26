@@ -39,7 +39,7 @@ export default function OpengraphImage() {
             One call gives a photo the edit it needs.
           </div>
           <div style={{ display: "flex", fontSize: 32, color: "#a4abb0" }}>
-            On-device photo editing · iOS · macOS · Android
+            Auto photo editing · iOS · macOS · Android
           </div>
         </div>
       </div>

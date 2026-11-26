@@ -67,6 +67,35 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
       </section>
 
       <section className={`container ${styles.section}`}>
+        <div className={styles.heading}>
+          <Eyebrow>{t.video.eyebrow}</Eyebrow>
+          <SectionTitle>{t.video.title}</SectionTitle>
+          <p className={styles.body}>{t.video.body}</p>
+        </div>
+        <div className={styles.timeline} role="img" aria-label={t.video.timelineLabel}>
+          <div className={styles.timelineBar} />
+          {[0, 38, 72].map((at, i) => (
+            <span key={at} className={styles.keyframe} style={{ left: `${at}%` }}>
+              <span className={styles.keyframeMark} />
+              <span className={styles.keyframeLabel}>
+                {t.video.keyframe} {i + 1}
+              </span>
+            </span>
+          ))}
+        </div>
+        <ol className={styles.videoSteps}>
+          {t.video.steps.map((step, i) => (
+            <li key={step.title} className={`${cardClass} ${styles.videoStep}`}>
+              <span className={styles.stepNumber}>{String(i + 1).padStart(2, "0")}</span>
+              <h3 className={styles.cardTitle}>{step.title}</h3>
+              <p className={styles.cardText}>{step.text}</p>
+            </li>
+          ))}
+        </ol>
+        <p className={styles.note}>{t.video.note}</p>
+      </section>
+
+      <section className={`container ${styles.section}`}>
         <div className={styles.headingRow}>
           <div className={styles.heading}>
             <Eyebrow>{t.overview.eyebrow}</Eyebrow>

@@ -48,7 +48,7 @@ export const en = {
   },
 
   hero: {
-    eyebrow: "On-device photo editing · iOS · macOS · Android",
+    eyebrow: "Auto photo editing · iOS · macOS · Android",
     title: "One call gives a photo the edit it needs.",
     lead: "PhotoEditKit reads exposure, colour cast, faces, subject and grain, then suggests ranked edits you can show in a picker or apply instantly. Entirely on the device.",
     afterLabel: "AI edit",
@@ -85,6 +85,20 @@ export const en = {
       { label: "Faces", value: "1" },
       { label: "Scene", value: "Sky" },
     ],
+  },
+
+  video: {
+    eyebrow: "Video",
+    title: "Videos too, scene by scene.",
+    body: "Pick a look on the opening frame and PhotoEditKit carries it through the whole video. It re-tunes the look wherever the scene changes, and blends gradually between those points so the grade never jumps.",
+    timelineLabel: "A video with three scenes: the look is re-tuned at each keyframe and blends across the frames in between.",
+    keyframe: "Keyframe",
+    steps: [
+      { title: "Find the keyframes", text: "Reads the video once in the background and marks a keyframe at each scene change." },
+      { title: "Re-tune at each one", text: "Analyses every keyframe and rebuilds the chosen look for that scene's light, keeping your slider changes." },
+      { title: "Blend in between", text: "Frames between two keyframes move gradually from one look to the next, so nothing jumps on a cut." },
+    ],
+    note: "Sharpening, noise reduction and grain are left out on video, so frames don't shimmer.",
   },
 
   overview: {

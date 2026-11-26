@@ -49,7 +49,7 @@ export const zhHans: Dictionary = {
   },
 
   hero: {
-    eyebrow: '端侧智能修图 · iOS · macOS · 安卓',
+    eyebrow: '自动修图 · iOS · macOS · 安卓',
     title: '为每张照片找到合适的修图配置',
     lead: 'PhotoEditKit 会分析曝光、色偏、人脸、主体和噪点，然后给出修图建议。全部在设备端完成。',
     afterLabel: '自动修图',
@@ -98,6 +98,20 @@ export const zhHans: Dictionary = {
       { label: '人脸', value: '1' },
       { label: '场景', value: '天空' },
     ],
+  },
+
+  video: {
+    eyebrow: '视频',
+    title: '视频也能修，逐个场景调校',
+    body: '在开头一帧选好效果，PhotoEditKit 会把它延续到整段视频。场景一变就重新调校效果，并在这些位置之间逐渐过渡，色调不会突然跳变。',
+    timelineLabel: '一段有三个场景的视频：效果在每个关键帧重新调校，并在中间帧之间逐渐过渡。',
+    keyframe: '关键帧',
+    steps: [
+      { title: '找出关键帧', text: '在后台读取一遍视频，在每次场景切换处标记一个关键帧。' },
+      { title: '逐个重新调校', text: '分析每个关键帧，按该场景的光线重建所选效果，并保留你的滑块调整。' },
+      { title: '中间帧逐渐过渡', text: '两个关键帧之间的画面从前一个效果逐渐过渡到下一个，切换时不会跳变。' },
+    ],
+    note: '视频不做锐化、降噪和颗粒，避免画面逐帧闪烁。',
   },
 
   overview: {
