@@ -71,6 +71,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
           <div className={styles.heading}>
             <Eyebrow>{t.overview.eyebrow}</Eyebrow>
             <SectionTitle>{t.overview.title}</SectionTitle>
+            <p className={styles.body}>{t.overview.body}</p>
           </div>
           <Link href={localePath(lang, "/recipes")} className={styles.link}>
             {t.overview.seeAll}

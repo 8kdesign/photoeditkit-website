@@ -10,6 +10,8 @@ import { useI18n } from "./I18nProvider";
 export function HeroShowcase() {
   const { t } = useI18n();
   const [selected, setSelected] = useState(0);
+  // The intro glide plays only on the first photo's first showing, not when the user comes back to it.
+  const [switched, setSwitched] = useState(false);
   const photo = examples[selected];
 
   // Once the page has loaded, quietly fetch the other examples (the same AVIF files the slider
@@ -37,7 +39,7 @@ export function HeroShowcase() {
         after={`/examples/${photo.slug}-edited.jpg`}
         alt={t.hero.examples[photo.slug] ?? photo.slug}
         elevated
-        introGlide={selected === 0}
+        introGlide={selected === 0 && !switched}
         priority={selected === 0}
       />
       <div role="group" aria-label={t.hero.examplesLabel} style={{ display: "flex", gap: 8, overflowX: "auto", padding: 4 }}>
@@ -49,7 +51,10 @@ export function HeroShowcase() {
               type="button"
               aria-pressed={active}
               aria-label={t.hero.examples[p.slug] ?? p.slug}
-              onClick={() => setSelected(i)}
+              onClick={() => {
+                if (i !== selected) setSwitched(true);
+                setSelected(i);
+              }}
               style={{
                 flex: "0 0 auto",
                 width: 80,

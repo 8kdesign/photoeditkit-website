@@ -90,6 +90,7 @@ export const en = {
   overview: {
     eyebrow: "The recipes",
     title: "Fixed recipes, tuned to every photo.",
+    body: "A good edit starts from the scene as it was. PhotoEditKit gets colour and light right before it tries to make a photo more pleasing to look at.",
     seeAll: "See every recipe →",
   },
 

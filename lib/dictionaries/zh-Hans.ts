@@ -103,6 +103,7 @@ export const zhHans: Dictionary = {
   overview: {
     eyebrow: '配方',
     title: '固定的配方，按每张照片调校',
+    body: '好的修图从真实的场景出发。PhotoEditKit 先还原准确的色彩和光线，然后才让照片更赏心悦目。',
     seeAll: '查看全部配方 →',
   },
 
